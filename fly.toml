@@ -1,0 +1,45 @@
+app = "vercel-cable"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  image = "anycable/anycable-go:1.4"
+
+[env]
+  PORT = "8080"
+  ANYCABLE_METRICS_HTTP = "/metrics"
+  ANYCABLE_METRICS_PORT = "9091"
+  ANYCABLE_BROADCAST_ADAPTER = "http"
+  ANYCABLE_BROKER = "memory"
+  ANYCABLE_RPC_IMPL = "http"
+  ANYCABLE_DEBUG = "true"
+
+[metrics]
+  port = 9091
+  path = "/metrics"
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 5000
+    soft_limit = 5000
+    type = "connections"
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"

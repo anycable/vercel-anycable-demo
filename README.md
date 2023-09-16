@@ -1,34 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AnyCable Next.js/Vercel Example
 
-## Getting Started
+This is an example of how to use [AnyCable](https://anycable.io) with [Next.js](https://nextjs.org) and [Vercel](https://vercel.com) to build real-time applications.
 
-First, run the development server:
+## Architecture overview
+
+The Next.js app is deployed to Vercel. AnyCable-Go is deployed to [Fly.io](https://fly.io) and communicates with the Next app via Vercel serverless functions for authorization and handling RPC calls over WebSockets.
+
+> [!NOTE]
+> AnyCable-Go can be deployed to any platform. We use Fly.io in this example because it's easy to deploy and manage.
+
+## Running locally
+
+First, install the dependencies:
+
+```bash
+# Next.js project
+npm install
+
+# AnyCable-Go
+brew install anycable-go
+```
+
+See [AnyCable-Go documentation](https://docs.anycable.io/anycable-go/getting_started?id=installation) for other installations options.
+
+Then, start AnyCable-Go:
+
+```bash
+npm run anycable-go
+```
+
+And start the Next.js app:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploying the app
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Deploying the Next.js app
 
-## Learn More
+Check out [Next.js documentation](https://nextjs.org/docs/pages/building-your-application/deploying#managed-nextjs-with-vercel) for more details.
 
-To learn more about Next.js, take a look at the following resources:
+### Deploying AnyCable-Go
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Using [fly CLI](https://fly.io/docs/hands-on/install-flyctl/), run the following commands:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```sh
+# Create a new Fly application
+fly apps create --name=vercel-cable
 
-## Deploy on Vercel
+# Deploy the app using the fly.toml configuration
+fly deploy
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Finally, connect the AnyCable-Go app to your Vercel app:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```sh
+fly secrets set ANYCABLE_RPC_HOST=https://<YOUR_VERCEL_APP_HOSTNAME>/api/anycable
+```

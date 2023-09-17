@@ -63,7 +63,7 @@ fly secrets set ANYCABLE_RPC_HOST=https://<YOUR_VERCEL_APP_HOSTNAME>/api/anycabl
 
 In the Vercel app configuration, specify the following env vars:
 
-- `CABLE_URL`: set it to `<YOUR_FLY_APP_HOSTNAME>/cable` (e.g., `wss://vercel-cable.fly.dev/cable`).
+- `NEXT_PUBLIC_CABLE_URL`: set it to `<YOUR_FLY_APP_HOSTNAME>/cable` (e.g., `wss://vercel-cable.fly.dev/cable`).
 - `ANYCABLE_BROADCAST_URL`: set it to `<YOUR_FLY_APP_HOSTNAME>/_broadcast` (e.g., `https://vercel-cable.fly.dev/_broadcast`).
 
 It's recommend to protect the broadcasting endpoint with a secret token. You can do it by setting the `ANYCABLE_HTTP_BROADCAST_SECRET` environment variable for **both apps**:

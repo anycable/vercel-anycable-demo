@@ -11,8 +11,11 @@ processes = []
   ANYCABLE_METRICS_HTTP = "/metrics"
   ANYCABLE_METRICS_PORT = "9091"
   ANYCABLE_BROADCAST_ADAPTER = "http"
+  ANYCABLE_HTTP_BROADCAST_PORT = "8080"
+  # ANYCABLE_HTTP_BROADCAST_SECRET = "" # set via secrets
   ANYCABLE_BROKER = "memory"
   ANYCABLE_RPC_IMPL = "http"
+  # ANYCABLE_RPC_HOST = "" # set via secrets
   ANYCABLE_DEBUG = "true"
 
 [metrics]

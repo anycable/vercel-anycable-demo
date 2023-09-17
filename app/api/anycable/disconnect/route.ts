@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { connectHandler, Status } from "@/lib/anycable";
+import { disconnectHandler, Status } from "@/lib/anycable";
 import app from "../../cable";
 
 export async function POST(request: Request) {
   try {
-    const response = await connectHandler(request, app);
+    const response = await disconnectHandler(request, app);
     return NextResponse.json(response, {
       status: 200,
     });

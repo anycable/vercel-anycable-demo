@@ -8,14 +8,14 @@ export enum Status {
 // Message definitions
 export type Env = {
   url: string;
-  headers: Record<string, string>;
-  cstate: Record<string, string>;
-  istate: Record<string, string>;
+  headers: Record<string, string> | null;
+  cstate: Record<string, string> | null;
+  istate: Record<string, string> | null;
 };
 
 export type EnvResponse = {
-  cstate: Record<string, string>;
-  istate: Record<string, string>;
+  cstate: Record<string, string> | null;
+  istate: Record<string, string> | null;
 };
 
 export type ConnectionRequest = {
@@ -24,9 +24,9 @@ export type ConnectionRequest = {
 
 export type ConnectionResponse = {
   status: Status;
-  identifiers: string;
-  transmissions: string[];
-  error_msg: string;
+  identifiers: string | null;
+  transmissions: string[] | null;
+  error_msg: string | null;
   env: EnvResponse;
 };
 
@@ -34,7 +34,7 @@ export type CommandMessage = {
   command: string;
   identifier: string;
   connection_identifiers: string;
-  data: string;
+  data: string | null;
   env: Env;
 };
 
@@ -42,11 +42,11 @@ export type CommandResponse = {
   status: Status;
   disconnect: boolean;
   stop_streams: boolean;
-  streams: string[];
-  transmissions: string[];
-  error_msg: string;
+  streams: string[] | null;
+  transmissions: string[] | null;
+  error_msg: string | null;
   env: EnvResponse;
-  stopped_streams: string[];
+  stopped_streams: string[] | null;
 };
 
 export type DisconnectRequest = {
@@ -57,12 +57,5 @@ export type DisconnectRequest = {
 
 export type DisconnectResponse = {
   status: Status;
-  error_msg: string;
+  error_msg: string | null;
 };
-
-// gRPC Service definition
-export interface RPC {
-  Connect(request: ConnectionRequest): Promise<ConnectionResponse>;
-  Command(request: CommandMessage): Promise<CommandResponse>;
-  Disconnect(request: DisconnectRequest): Promise<DisconnectResponse>;
-}

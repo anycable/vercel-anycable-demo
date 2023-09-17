@@ -1,6 +1,5 @@
 import { MessageList } from "./components/message-list"
 import { NewMessageForm } from "./components/new-message-form"
-import "./fakes"
 
 export default function Home() {
   return (

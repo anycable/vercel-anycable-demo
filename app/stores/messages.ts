@@ -1,24 +1,26 @@
+"use local";
+
 import { atom } from "nanostores";
 
-import { $user } from "./user";
 import type { Message as IMessage } from "../components/message";
 
+import cable from "../cable";
+import ChatChannel from "../channels/chat-channel";
+
 export const $messages = atom<IMessage[]>([]);
+
+// Initialize cable and subscribe to the channel
+const chatChannel = new ChatChannel({ roomId: "42" });
+cable.subscribe(chatChannel);
+
+chatChannel.on("message", (message) => {
+  addMessage(message);
+});
 
 export const addMessage = (message: IMessage) => {
   $messages.set([...$messages.get(), message]);
 };
 
 export const createMessage = async (body: string) => {
-  const message: IMessage = {
-    id: Math.random().toString(36).substr(2, 9),
-    username: $user.get().name,
-    body,
-    createdAt: new Date().toISOString(),
-  };
-
-  // async operation emulation
-  await new Promise((resolve) => setTimeout(resolve, 0));
-
-  addMessage(message);
+  chatChannel.sendMessage({ body });
 };

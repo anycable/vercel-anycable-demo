@@ -144,9 +144,9 @@ export class Application<IdentifiersType extends IdentifiersMap = {}> {
     if (command === "subscribe") {
       await channel.subscribed(channelHandle, params);
       if (channelHandle.rejected) {
-        channelHandle.transmit({ type: "reject_subscription" });
+        handle.transmit({ identifier, type: "reject_subscription" });
       } else {
-        channelHandle.transmit({ type: "confirm_subscription" });
+        handle.transmit({ identifier, type: "confirm_subscription" });
       }
     } else if (command === "unsubscribe") {
       await channel.unsubscribed(channelHandle, params);

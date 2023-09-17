@@ -2,6 +2,9 @@ import { Channel, ChannelHandle } from "@/lib/anycable/channel";
 import type { CableIdentifiers } from "../cable";
 import { broadcastTo } from "../cable";
 
+import type { SentMessage } from "@/app/channels/chat-channel";
+import type { Message as IMessage } from "../../components/message";
+
 type ChatChannelParams = {
   roomId: string;
 };
@@ -30,21 +33,25 @@ export default class ChatChannel extends Channel<
   async sendMessage(
     handle: ChannelHandle<CableIdentifiers>,
     params: ChatChannelParams,
-    data: { content: string }
+    data: SentMessage
   ) {
-    const { content } = data || {};
+    const { body } = data;
 
-    if (!content) {
+    if (!body) {
       throw new Error("Content is required");
     }
 
     console.log(
-      `User ${handle.identifiers!.username} sent message: ${data.content}`
+      `User ${handle.identifiers!.username} sent message: ${data.body}`
     );
 
-    broadcastTo(`room:${params.roomId}`, {
+    const message: IMessage = {
+      id: Math.random().toString(36).substr(2, 9),
       username: handle.identifiers!.username,
-      content: data.content,
-    });
+      body,
+      createdAt: new Date().toISOString(),
+    };
+
+    broadcastTo(`room:${params.roomId}`, message);
   }
 }

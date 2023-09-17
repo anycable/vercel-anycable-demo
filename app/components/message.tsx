@@ -1,5 +1,5 @@
 import { useStore } from '@nanostores/react'
-import { $user } from '../stores/user.js'
+import { $user } from '../stores/user'
 
 export type Message = {
   id: string;

@@ -38,7 +38,7 @@ export default class ChatChannel extends Channel<
     const { body } = data;
 
     if (!body) {
-      throw new Error("Content is required");
+      throw new Error("Body is required");
     }
 
     console.log(
@@ -52,6 +52,6 @@ export default class ChatChannel extends Channel<
       createdAt: new Date().toISOString(),
     };
 
-    broadcastTo(`room:${params.roomId}`, message);
+    await broadcastTo(`room:${params.roomId}`, message);
   }
 }

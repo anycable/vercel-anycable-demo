@@ -1,4 +1,4 @@
-export type IBroadcast = (stream: string, data: any) => void;
+export type IBroadcast = (stream: string, data: any) => Promise<void>;
 
 export const broadcaster = (url: string, secret: string): IBroadcast => {
   const broadcast = async (stream: string, data: any) => {

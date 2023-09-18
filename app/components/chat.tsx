@@ -6,10 +6,11 @@ import { NewMessageForm } from "./new-message-form";
 import { $roomId, addAutoScroll } from "../stores/messages";
 import { useSearchParams } from "next/navigation";
 import { useStore } from "@nanostores/react";
-import { $init } from "../stores/init";
+import { $cable } from "../stores/cable";
 
 export function Chat() {
-  useStore($init);
+  // Initializing cable creation
+  useStore($cable);
 
   const searchParams = useSearchParams();
   const roomId = searchParams.get("roomId");

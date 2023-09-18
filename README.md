@@ -11,11 +11,14 @@ The Next.js app is deployed to Vercel. AnyCable-Go is deployed to [Fly.io](https
 
 ## Running locally
 
+> [!NOTE]
+> [PNPM](https://pnpm.io/installation) is required to install dependencies.
+
 First, install the dependencies:
 
 ```bash
 # Next.js project
-npm install
+pnpm install
 
 # AnyCable-Go
 brew install anycable-go
@@ -26,13 +29,13 @@ See [AnyCable-Go documentation](https://docs.anycable.io/anycable-go/getting_sta
 Then, start AnyCable-Go:
 
 ```bash
-npm run anycable-go
+pnpm anycable-go
 ```
 
 And start the Next.js app:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

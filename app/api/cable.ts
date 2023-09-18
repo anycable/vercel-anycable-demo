@@ -7,7 +7,7 @@ export type CableIdentifiers = {
 
 // Broadcasting configuration
 const broadcastURL =
-  process.env.ANYCABLE_BROADCAST_URL || "http://localhost:8090/_broadcast";
+  process.env.ANYCABLE_BROADCAST_URL || "http://127.0.0.1:8090/_broadcast";
 const broadcastToken = process.env.ANYCABLE_HTTP_BROADCAST_SECRET || "";
 
 export const broadcastTo = broadcaster(broadcastURL, broadcastToken);

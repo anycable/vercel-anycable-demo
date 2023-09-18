@@ -15,7 +15,7 @@ const messages = [
   {
     id: "2",
     username: "mary read",
-    body: "I am doing well, thanks for asking!",
+    body: "I am doing well, thanks for asking! When people ask such questions, I feel very welcomed!",
     createdAt: "2022-01-01T12:05:00Z",
   },
   {

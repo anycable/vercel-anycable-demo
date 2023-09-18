@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { createMessage } from "../stores/messages";
@@ -7,25 +7,38 @@ export const NewMessageForm = () => {
   const [body, setBody] = useState("");
 
   return (
-    <div className="sticky bottom-0 p-2 border-gray-400 bg-gray-100 rounded-md mt-4 mr-4">
-      <form className="flex flex-row"
-        onSubmit={(e) => {
-          e.preventDefault();
+    <form
+      className="flex gap-2"
+      onSubmit={(e) => {
+        e.preventDefault();
 
-          if (body) {
-            createMessage(body);
-            setBody("");
-          }
-        }}
-      >
-        <input type="text" name="message" placeholder="Message" className="border-none flex-grow mr-2 px-2" autoComplete="off"
+        if (body) {
+          createMessage(body);
+          setBody("");
+        }
+      }}
+    >
+      <div className="flex-grow">
+        <label htmlFor="message" className="sr-only">
+          Message
+        </label>
+        <input
+          id="message"
+          className="h-full w-full rounded-md border-0 px-2.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
           value={body}
           onChange={(e) => setBody(e.target.value)}
+          autoComplete="off"
+          placeholder="Message"
         />
-        <input type="submit" name="commit" value="Send" className="rounded py-2 px-5 bg-red-600 text-white inline-block cursor-pointer hover:bg-red-500 transition-colors disabled:bg-red-100 disabled:cursor-no-allowed"
-          disabled={!body}
-        />
-      </form>
-    </div>
+      </div>
+
+      <input
+        type="submit"
+        name="commit"
+        value="Send"
+        className="disabled:cursor-no-allowed inline-block cursor-pointer rounded-md bg-red-500 px-5 py-2 text-white transition-colors hover:bg-red-400 disabled:bg-red-100"
+        disabled={!body}
+      />
+    </form>
   );
 };

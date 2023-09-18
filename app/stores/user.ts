@@ -1,11 +1,19 @@
 "use client";
 
-import { map } from "nanostores";
+import { map, onStart } from "nanostores";
 
-// TEMP: pick a random name from the list of pirates
-const names = ["jack sparrow", "davy jones", "blackbeard", "anne bonny"];
-const randomName = names[Math.floor(Math.random() * names.length)];
+const getCookie = (name: string) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(";").shift();
+};
 
 export const $user = map({
-  name: randomName,
+  username: "",
+});
+onStart($user, () => {
+  const username = getCookie("username");
+  if (!username) throw new Error("Incorrect state: no username provided");
+
+  $user.set({ username });
 });

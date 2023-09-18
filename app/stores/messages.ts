@@ -1,11 +1,11 @@
 "use client";
 
-import { atom, onMount, onSet } from "nanostores";
+import { atom, onSet } from "nanostores";
 
 import type { Message as IMessage } from "../components/message";
 
-import cable from "../cable";
 import ChatChannel from "../channels/chat-channel";
+import { $cable } from "./cable";
 
 export const $messages = atom<IMessage[]>([]);
 
@@ -20,14 +20,22 @@ export const addAutoScroll = (container: HTMLElement) =>
     }
   });
 
-// Initialize cable and subscribe to the channel
-const chatChannel = new ChatChannel({ roomId: "42" });
-cable.subscribe(chatChannel);
+export const $roomId = atom<string | void>();
+const $channel = atom<ChatChannel | void>();
 
-onMount($messages, () => {
-  // Only subscribing in browser
-  if (typeof window !== "undefined") {
-    return chatChannel.on("message", (message) => {
+onSet($roomId, ({ newValue: roomId }) => {
+  $channel.set(roomId ? new ChatChannel({ roomId }) : void 0);
+});
+
+onSet($channel, ({ newValue: chatChannel }) => {
+  $messages.set([]);
+
+  const prev = $channel.value;
+  if (prev) $cable.value?.unsubscribe(prev);
+
+  if (chatChannel) {
+    $cable.value?.subscribe(chatChannel);
+    chatChannel.on("message", (message) => {
       addMessage(message);
     });
   }
@@ -38,5 +46,5 @@ export const addMessage = (message: IMessage) => {
 };
 
 export const createMessage = async (body: string) => {
-  chatChannel.sendMessage({ body });
+  $channel.value?.sendMessage({ body });
 };

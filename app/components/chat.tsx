@@ -3,9 +3,21 @@
 import { useEffect } from "react";
 import { MessageList } from "./message-list";
 import { NewMessageForm } from "./new-message-form";
-import { addAutoScroll } from "../stores/messages";
+import { $roomId, addAutoScroll } from "../stores/messages";
+import { useSearchParams } from "next/navigation";
+import { useStore } from "@nanostores/react";
+import { $init } from "../stores/init";
 
 export function Chat() {
+  useStore($init);
+
+  const searchParams = useSearchParams();
+  const roomId = searchParams.get("roomId");
+
+  useEffect(() => {
+    if (roomId) $roomId.set(roomId);
+  }, [roomId]);
+
   useEffect(() => addAutoScroll(document.documentElement), []);
 
   return (

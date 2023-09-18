@@ -36,8 +36,7 @@ export const NewMessageForm = () => {
         type="submit"
         name="commit"
         value="Send"
-        className="disabled:cursor-no-allowed inline-block cursor-pointer rounded-md bg-red-500 px-5 py-2 text-white transition-colors hover:bg-red-400 disabled:bg-red-100"
-        disabled={!body}
+        className="cursor-pointer rounded-md bg-red-500 px-5 py-2 text-white hover:bg-red-400"
       />
     </form>
   );

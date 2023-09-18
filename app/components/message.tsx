@@ -15,8 +15,8 @@ interface Props {
 }
 
 export const Message = ({ message }: Props) => {
-  const { name } = useStore($user);
-  const mine = name === message.username;
+  const { username } = useStore($user);
+  const mine = username === message.username;
 
   return (
     <div

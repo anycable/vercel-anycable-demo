@@ -5,7 +5,11 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getNewAuthCookie } from "@/lib/auth";
 
-export default async function AuthPage() {
+export default async function AuthPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string };
+}) {
   async function login(form: FormData) {
     "use server";
 
@@ -17,8 +21,18 @@ export default async function AuthPage() {
           name: "token",
           value: await getNewAuthCookie(username),
           httpOnly: true,
+          maxAge: 3600 * 60,
         });
-        return redirect("/");
+        cookies().set({
+          name: "username",
+          value: username,
+          maxAge: 3600 * 60,
+        });
+
+        let target = "/";
+        if (searchParams.roomId) target += "?roomId=" + searchParams.roomId;
+
+        return redirect(target);
       }
     }
 

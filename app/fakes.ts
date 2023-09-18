@@ -8,7 +8,7 @@ import { addMessage } from "./stores/messages";
 const messages = [
   {
     id: "1",
-    username: $user.get().name,
+    username: $user.get().username,
     body: "Hey, how are you?",
     createdAt: "2022-01-01T12:00:00Z",
   },
@@ -20,13 +20,13 @@ const messages = [
   },
   {
     id: "3",
-    username: $user.get().name,
+    username: $user.get().username,
     body: "That is great to hear!",
     createdAt: "2022-01-01T12:10:00Z",
   },
   {
     id: "4",
-    username: $user.get().name,
+    username: $user.get().username,
     body: "What's you up into these days?",
     createdAt: "2022-01-01T12:15:00Z",
   },

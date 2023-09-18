@@ -15,7 +15,7 @@ export default class ChatChannel extends Channel<
 > {
   async subscribed(
     handle: ChannelHandle<CableIdentifiers>,
-    params: ChatChannelParams | null
+    params: ChatChannelParams | null,
   ) {
     if (!params) {
       handle.reject();
@@ -33,7 +33,7 @@ export default class ChatChannel extends Channel<
   async sendMessage(
     handle: ChannelHandle<CableIdentifiers>,
     params: ChatChannelParams,
-    data: SentMessage
+    data: SentMessage,
   ) {
     const { body } = data;
 
@@ -42,7 +42,7 @@ export default class ChatChannel extends Channel<
     }
 
     console.log(
-      `User ${handle.identifiers!.username} sent message: ${data.body}`
+      `User ${handle.identifiers!.username} sent message: ${data.body}`,
     );
 
     const message: IMessage = {

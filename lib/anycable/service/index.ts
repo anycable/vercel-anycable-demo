@@ -34,7 +34,7 @@ function extractSessionId(req: Request) {
 
 export const connectHandler = async (
   request: Request,
-  app: Application
+  app: Application,
 ): Promise<ConnectionResponse> => {
   const payload = (await parsePayload(request)) as ConnectionRequest;
   const sid = extractSessionId(request);
@@ -55,7 +55,7 @@ export const connectHandler = async (
 
 export const commandHandler = async (
   request: Request,
-  app: Application
+  app: Application,
 ): Promise<CommandResponse> => {
   const payload = (await parsePayload(request)) as CommandMessage;
   const sid = extractSessionId(request);
@@ -66,7 +66,7 @@ export const commandHandler = async (
     handle,
     payload.command,
     payload.identifier,
-    payload.data
+    payload.data,
   );
 
   return {
@@ -83,7 +83,7 @@ export const commandHandler = async (
 
 export const disconnectHandler = async (
   request: Request,
-  app: Application
+  app: Application,
 ): Promise<DisconnectResponse> => {
   const payload = (await parsePayload(request)) as DisconnectRequest;
   const sid = extractSessionId(request);

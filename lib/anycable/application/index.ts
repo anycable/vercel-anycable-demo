@@ -135,7 +135,7 @@ export class Application<IdentifiersType extends IdentifiersMap = {}> {
     handle: ConnectionHandle<IdentifiersType>,
     command: string,
     identifier: string,
-    data: string | null
+    data: string | null,
   ) {
     const { channel, params } = this.findChannel(identifier);
 
@@ -162,7 +162,7 @@ export class Application<IdentifiersType extends IdentifiersMap = {}> {
 
   async handleClose(
     handle: ConnectionHandle<IdentifiersType>,
-    subscriptions: string[] | null
+    subscriptions: string[] | null,
   ) {
     if (subscriptions) {
       for (const identifier of subscriptions) {

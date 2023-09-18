@@ -21,7 +21,7 @@ export class ChannelHandle<I, S extends ChannelState = {}, T = any> {
   constructor(
     delegate: ConnectionDelegate<I>,
     identifier: string,
-    state: Partial<S>
+    state: Partial<S>,
   ) {
     this.delegate = delegate;
     this.identifier = identifier;
@@ -68,16 +68,16 @@ export class Channel<
   IdentifiersType,
   ParamsType extends ChannelParamsMap = {},
   StateType extends ChannelState = {},
-  TransmissionsType = any
+  TransmissionsType = any,
 > {
   async subscribed(
     handle: ChannelHandle<IdentifiersType, StateType, TransmissionsType>,
-    params: ParamsType | null
+    params: ParamsType | null,
   ): Promise<void> {}
 
   async unsubscribed(
     handle: ChannelHandle<IdentifiersType, StateType, TransmissionsType>,
-    params: ParamsType | null
+    params: ParamsType | null,
   ): Promise<void> {
     return;
   }
@@ -86,7 +86,7 @@ export class Channel<
     handle: ChannelHandle<IdentifiersType, StateType, TransmissionsType>,
     params: ParamsType | null,
     action: string,
-    payload: any
+    payload: any,
   ) {
     // TODO: figure out how to avoid this cast and make channel actions type-safe
     const self = this as any;

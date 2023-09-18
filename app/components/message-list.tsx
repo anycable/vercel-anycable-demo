@@ -13,7 +13,7 @@ export const MessageList = () => {
         <Message key={message.id} message={message} />
       ))}
       {!messages.length && (
-        <p className="text-center text-sm text-gray-500">{`No messages here yet. Don't be shy, send something!`}</p>
+        <p className="text-center text-sm text-gray-500">{`No messages have bees seen here recently. Don't be shy, send something!`}</p>
       )}
     </div>
   );

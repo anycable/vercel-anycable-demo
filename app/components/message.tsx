@@ -1,5 +1,3 @@
-import { useStore } from "@nanostores/react";
-import { $user } from "../stores/user";
 import { cx } from "class-variance-authority";
 
 export type Message = {
@@ -12,17 +10,23 @@ export type Message = {
 
 interface Props {
   message: Message;
+  mine: boolean;
 }
 
-export const Message = ({ message }: Props) => {
-  const { username } = useStore($user);
-  const mine = username === message.username;
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
 
+  return `${hours}:${minutes}`;
+}
+
+export const Message = ({ message, mine }: Props) => {
   return (
     <div
       className={cx(
-        "flex max-w-[85%] flex-col gap-1 rounded-md border px-3 py-2 shadow md:max-w-[66%]",
-        mine ? "self-end border-red-300 bg-red-200" : "self-start bg-white",
+        "flex max-w-[85%] flex-col gap-1 rounded-md border p-2 pb-1 shadow md:max-w-[66%]",
+        mine ? "self-end border-red-200 bg-red-100" : "self-start bg-white",
       )}
     >
       {!mine && (
@@ -31,7 +35,16 @@ export const Message = ({ message }: Props) => {
         </span>
       )}
       <p>{message.body}</p>
-      {/* TODO: Add avatar and timestamps */}
+      <time
+        className={cx(
+          mine ? "text-red-400" : "text-gray-400",
+          "select-none text-right text-xs",
+        )}
+        title={message.createdAt}
+        dateTime={message.createdAt}
+      >
+        {formatDate(message.createdAt)}
+      </time>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { atom, onSet } from "nanostores";
 import type { Message as IMessage } from "../components/message";
 
 import ChatChannel from "../channels/chat-channel";
-import { $cable } from "./cable";
+import { $cable, ensureCable } from "./cable";
 
 export const $messages = atom<IMessage[]>([]);
 
@@ -27,11 +27,13 @@ onSet($roomId, ({ newValue: roomId }) => {
   $channel.set(roomId ? new ChatChannel({ roomId }) : void 0);
 });
 
-onSet($channel, ({ newValue: chatChannel }) => {
+onSet($channel, async ({ newValue: chatChannel }) => {
   $messages.set([]);
 
+  await ensureCable();
+
   const prev = $channel.value;
-  if (prev) $cable.value?.unsubscribe(prev);
+  if (prev) prev.disconnect();
 
   if (chatChannel) {
     $cable.value?.subscribe(chatChannel);

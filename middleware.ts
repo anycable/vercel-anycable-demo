@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { isCookieValid } from "./lib/auth";
+import { identifier } from "./app/api/cable";
 
 export function middleware(request: NextRequest) {
-  if (!isCookieValid(request)) {
+  if (!identifier.verify(request.cookies.get("token")?.value)) {
     const url = new URL(request.url);
     url.pathname = "/auth";
 

@@ -3,7 +3,7 @@ import { MainLayout } from "../components/main-layout";
 import { Logo } from "./logo";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { getNewAuthCookie } from "@/lib/auth";
+import { identifier } from "../api/cable";
 
 export default async function AuthPage({
   searchParams,
@@ -19,7 +19,7 @@ export default async function AuthPage({
       if (username) {
         cookies().set({
           name: "token",
-          value: await getNewAuthCookie(username),
+          value: await identifier.generateToken({ username }),
           httpOnly: true,
           maxAge: 3600 * 60,
         });

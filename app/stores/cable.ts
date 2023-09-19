@@ -1,12 +1,27 @@
-import { computed } from "nanostores";
-import { $user } from "./user";
+"use client";
+
+import { atom, onMount, action } from "nanostores";
+import type { Cable } from "@anycable/core";
 import { createCable } from "@anycable/web";
 
-const url = process.env.NEXT_PUBLIC_CABLE_URL || "ws://localhost:8080/cable";
+export const $cable = atom<Cable | void>();
 
-export const $cable = computed($user, (user) =>
-  createCable(`${url}?username=${user.username}`, {
-    protocol: "actioncable-v1-ext-json",
-    historyTimestamp: Math.floor(Date.now() / 1000) - 5 * 60, // 5 minutes ago
-  }),
-);
+export const ensureCable = action($cable, "ensure", async (cable) => {
+  if (cable.get()) return cable.get();
+
+  const url = await fetch("/api/auth/cable", {
+    method: "POST",
+    credentials: "include",
+  })
+    .then((r) => r.json())
+    .then((r) => r.url);
+
+  cable.set(
+    createCable(url, {
+      protocol: "actioncable-v1-ext-json",
+      historyTimestamp: Math.floor(Date.now() / 1000) - 5 * 60, // 5 minutes ago
+    }),
+  );
+
+  return cable.get();
+});

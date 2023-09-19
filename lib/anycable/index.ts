@@ -17,3 +17,5 @@ export { Channel, ChannelHandle } from "./channel";
 export type { ChannelParamsMap, ChannelState } from "./channel";
 export type { IBroadcast } from "./broadcast";
 export { broadcaster } from "./broadcast";
+export { identificator } from "./jwt";
+export type { IIdentificator } from "./jwt";

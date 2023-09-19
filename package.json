@@ -10,6 +10,7 @@
     "anycable-go": "anycable-go --broadcast_adapter=http --presets=broker --rpc_impl=http --rpc_host=http://localhost:3000/api/anycable"
   },
   "dependencies": {
+    "@anycable/core": "^0.7.6",
     "@anycable/web": "^0.7.2",
     "@nanostores/react": "^0.7.1",
     "@types/node": "20.6.0",

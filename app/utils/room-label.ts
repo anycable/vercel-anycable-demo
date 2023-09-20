@@ -41,3 +41,5 @@ const rooms = [
 ];
 
 export const getRoomLabel = (id: string) => seededRandom(id, rooms);
+
+export const isRoomLabel = (name: string) => rooms.includes(name);

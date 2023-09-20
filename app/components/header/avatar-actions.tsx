@@ -3,30 +3,20 @@
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { SVGProps } from "react";
 import { Menu } from "../menu";
+import { Avatar } from "../avatar";
 
 export function AvatarActions({
   usernameOrEmail,
-  gravatarUrl,
   signOutAction,
 }: {
   usernameOrEmail: string;
-  gravatarUrl: string | null;
   signOutAction: () => void;
 }) {
   return (
     <Menu.Root>
       <Menu.Trigger label="My profile">
-        <div className="h-8 w-8">
-          {gravatarUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              className="h-full w-full rounded-full"
-              src={gravatarUrl}
-              alt=""
-            />
-          ) : (
-            <HeroiconsUserCircle20Solid className="text-gray-500" aria-hidden />
-          )}
+        <div className="h-8 w-8 hover:opacity-80">
+          <Avatar username={usernameOrEmail} />
         </div>
       </Menu.Trigger>
       <Menu.Body align="right">
@@ -53,7 +43,7 @@ function SignOutButton() {
   );
 }
 
-export function HeroiconsUserCircle20Solid(props: SVGProps<SVGSVGElement>) {
+function HeroiconsUserCircle20Solid(props: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" {...props}>
       <path

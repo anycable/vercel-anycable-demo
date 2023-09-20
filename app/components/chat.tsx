@@ -30,7 +30,7 @@ export function Chat({
 
   return (
     <div className="relative flex min-h-screen w-full flex-col gap-3">
-      <div className="sticky top-0 -mx-2 bg-red-50">
+      <div className="sticky top-0 z-10 -mx-2 bg-red-50">
         <div className="px-2">{header}</div>
       </div>
       <div className="flex-1">

@@ -1,5 +1,6 @@
 import { cx } from "class-variance-authority";
 import { formatDateToHours } from "../utils/format-date";
+import { Avatar } from "./avatar";
 
 export type Message = {
   id: string;
@@ -12,17 +13,24 @@ export type Message = {
 interface Props {
   message: Message;
   mine: boolean;
+  showName: boolean;
+  showAvatar: boolean;
 }
 
-export const Message = ({ message, mine }: Props) => {
+export const Message = ({ message, mine, showName, showAvatar }: Props) => {
   return (
     <div
       className={cx(
-        "flex max-w-[85%] flex-col gap-1 rounded-md border p-2 pb-1 shadow md:max-w-[66%]",
+        "relative flex max-w-[85%] flex-col gap-1 rounded-md border p-2 pb-1 shadow md:max-w-[66%]",
         mine ? "self-end border-red-200 bg-red-100" : "self-start bg-white",
       )}
     >
-      {!mine && (
+      {showAvatar && (
+        <div className="absolute bottom-0 left-0 h-8 w-8 -translate-x-[calc(100%+8px)]">
+          <Avatar username={message.username} />
+        </div>
+      )}
+      {showName && (
         <span className="select-none truncate text-xs font-semibold text-gray-400">
           {message.username}
         </span>

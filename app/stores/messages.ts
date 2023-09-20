@@ -1,6 +1,6 @@
 "use client";
 
-import { atom, computed, onSet, onStop } from "nanostores";
+import { atom, computed, onSet } from "nanostores";
 
 import type { Message as IMessage } from "../components/message";
 
@@ -11,8 +11,14 @@ export const $messages = atom<IMessage[]>([]);
 
 export const addAutoScroll = (container: HTMLElement) =>
   onSet($messages, () => {
+    /*
+    Marvelous thing: at some point `scrollTop` started to give me… fractional numbers!
+    Let's pretend that 5 pixel difference doesn't, really matter here.
+    */
     const isCurrentlyAtBottom =
-      container.scrollTop === container.scrollHeight - container.clientHeight;
+      Math.abs(
+        container.scrollTop - (container.scrollHeight - container.clientHeight),
+      ) < 5;
 
     if (isCurrentlyAtBottom) {
       // Wrapping with timeout to scroll after new message is rendered
@@ -24,8 +30,6 @@ export const $roomId = atom<string | void>();
 
 export const $channel = computed([$cable, $roomId], (cable, roomId) => {
   if (!cable || !roomId) return;
-
-  console.log("updating?", cable, roomId);
 
   $channel.value?.disconnect();
 

@@ -1,10 +1,8 @@
 import { cookies } from "next/headers";
 import { RoomActions } from "./room-actions";
 import { redirect } from "next/navigation";
-import { SignOutButton } from "./sign-out-button";
 import { nanoid } from "nanoid";
 import { AvatarActions } from "./avatar-actions";
-import { getGravatarUrl } from "@/app/utils/gravatar-url";
 
 export function Header({ roomLabel }: { roomLabel: string }) {
   const username = cookies().get("username")?.value!;
@@ -28,11 +26,7 @@ export function Header({ roomLabel }: { roomLabel: string }) {
           </div>
         </div>
         <div>
-          <AvatarActions
-            usernameOrEmail={username}
-            gravatarUrl={getGravatarUrl(username)}
-            signOutAction={signOut}
-          />
+          <AvatarActions usernameOrEmail={username} signOutAction={signOut} />
         </div>
       </div>
     </div>

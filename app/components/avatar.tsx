@@ -24,7 +24,7 @@ export function Avatar({
   );
 
   return (
-    <span className="relative">
+    <div className="relative">
       <div className="h-10 w-10">{fragment}</div>
       {indicatorClass && (
         <span
@@ -35,7 +35,7 @@ export function Avatar({
           )}
         />
       )}
-    </span>
+    </div>
   );
 }
 

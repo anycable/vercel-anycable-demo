@@ -1,9 +1,11 @@
 "use client";
 
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
-import { SVGProps } from "react";
 import { Menu } from "../menu";
 import { Avatar } from "../avatar";
+import { $cable, $cableState, CableState } from "@/app/stores/cable";
+import { useStore } from "@nanostores/react";
+import { cx } from "class-variance-authority";
 
 export function AvatarActions({
   usernameOrEmail,
@@ -15,19 +17,33 @@ export function AvatarActions({
   return (
     <Menu.Root>
       <Menu.Trigger label="My profile">
-        <div className="h-8 w-8 hover:opacity-80">
+        <div className="relative h-8 w-8 hover:opacity-80">
+          <div className="absolute left-0 top-0">
+            <Indicator />
+          </div>
           <Avatar username={usernameOrEmail} />
         </div>
       </Menu.Trigger>
       <Menu.Body align="right">
-        <Menu.ItemRoot disabled>
+        <div className="divide-y divide-gray-100">
+          <div className="pb-1">
+            <Menu.ItemRoot>
+              <DisconnectButton />
+            </Menu.ItemRoot>
+
+            <Menu.TextItem>
+              <Status />
+            </Menu.TextItem>
+          </div>
           <Menu.TextItem>{usernameOrEmail}</Menu.TextItem>
-        </Menu.ItemRoot>
-        <Menu.ItemRoot disabled>
-          <form action={signOutAction}>
-            <SignOutButton />
-          </form>
-        </Menu.ItemRoot>
+          <div className="pt-1">
+            <Menu.ItemRoot disabled>
+              <form action={signOutAction}>
+                <SignOutButton />
+              </form>
+            </Menu.ItemRoot>
+          </div>
+        </div>
       </Menu.Body>
     </Menu.Root>
   );
@@ -43,15 +59,47 @@ function SignOutButton() {
   );
 }
 
-function HeroiconsUserCircle20Solid(props: SVGProps<SVGSVGElement>) {
+function Status() {
+  const state = useStore($cableState);
+
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" {...props}>
-      <path
-        fill="currentColor"
-        fillRule="evenodd"
-        d="M18 10a8 8 0 1 1-16 0a8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z"
-        clipRule="evenodd"
-      ></path>
-    </svg>
+    <div className="flex items-center gap-2">
+      <Indicator />
+      <div className="text-xs text-gray-500">{state}</div>
+    </div>
+  );
+}
+
+const bgClass: Record<CableState, string> = {
+  idle: "bg-green-400",
+  disconnected: "bg-red-400",
+  connecting: "bg-blue-400",
+  connected: "bg-green-400",
+  closed: "bg-gray-400",
+};
+function Indicator() {
+  const state = useStore($cableState);
+
+  return (
+    <div
+      className={cx("h-1 w-1 rounded-full transition-colors", bgClass[state])}
+    />
+  );
+}
+
+function DisconnectButton() {
+  const state = useStore($cableState);
+  const cable = useStore($cable);
+
+  // We can't do anything here
+  if (state === "disconnected") return null;
+
+  const onClick =
+    state === "closed" ? () => cable?.connect() : () => cable?.disconnect();
+
+  return (
+    <Menu.InteractiveItem as="button" onClick={onClick}>
+      {state === "closed" ? "Connect" : "Disconnect"}
+    </Menu.InteractiveItem>
   );
 }

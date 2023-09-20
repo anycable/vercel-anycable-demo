@@ -7,6 +7,7 @@ import { $channel, $roomId, addAutoScroll } from "../stores/messages";
 import { useSearchParams } from "next/navigation";
 import { useStore } from "@nanostores/react";
 import { $user } from "../stores/user";
+import { OfflineOverlay } from "./offline-overlay";
 
 export function Chat({
   header,
@@ -41,6 +42,7 @@ export function Chat({
           <NewMessageForm />
         </div>
       </div>
+      <OfflineOverlay />
     </div>
   );
 }

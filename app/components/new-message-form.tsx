@@ -3,9 +3,13 @@
 import { useState } from "react";
 import { createMessage } from "../stores/messages";
 import { Button } from "./button";
+import { useStore } from "@nanostores/react";
+import { $cableState } from "../stores/cable";
 
 export const NewMessageForm = () => {
   const [body, setBody] = useState("");
+  const state = useStore($cableState);
+  const submitDisabled = state !== "idle" && state !== "connected";
 
   return (
     <form
@@ -13,7 +17,7 @@ export const NewMessageForm = () => {
       onSubmit={(e) => {
         e.preventDefault();
 
-        if (body) {
+        if (body && !submitDisabled) {
           createMessage(body);
           setBody("");
         }
@@ -33,7 +37,7 @@ export const NewMessageForm = () => {
         />
       </div>
 
-      <Button>Send</Button>
+      <Button disabled={submitDisabled}>Send</Button>
     </form>
   );
 };

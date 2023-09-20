@@ -82,7 +82,7 @@ function InteractiveItem<T extends "button" | "a">({
   return createElement(Element, {
     ...props,
     className:
-      "block w-full px-3 py-1 text-left text-sm leading-6 text-gray-900 disabled:text-gray-600",
+      "block w-full px-3 py-1 text-left text-sm leading-6 text-gray-900 hover:bg-gray-100 disabled:text-gray-600",
   });
 }
 

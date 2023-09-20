@@ -63,7 +63,7 @@ const Body = ({
     >
       <HMenu.Items
         className={cx(
-          "absolute z-10 mt-0.5 w-36 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none",
+          "absolute z-10 mt-0.5 w-36 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-gray-900/5 focus:outline-none",
           align === "right" && "right-0",
           align === "left" && "left-0",
         )}
@@ -82,13 +82,13 @@ function InteractiveItem<T extends "button" | "a">({
   return createElement(Element, {
     ...props,
     className:
-      "block w-full px-3 py-1 text-left text-sm leading-6 text-gray-900 hover:bg-gray-100 disabled:text-gray-600",
+      "block w-full pr-3 pl-6 py-1 text-left text-sm leading-6 text-gray-900 hover:bg-gray-100 disabled:text-gray-600",
   });
 }
 
 function TextItem({ children }: PropsWithChildren) {
   return (
-    <div className="w-full truncate px-3 py-1 text-sm leading-6 text-gray-500">
+    <div className="w-full truncate py-1 pl-6 pr-3 text-sm leading-6 text-gray-500">
       {children}
     </div>
   );

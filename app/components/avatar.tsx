@@ -1,16 +1,42 @@
 import { SVGProps, useMemo } from "react";
 import { getGravatarUrl } from "../utils/gravatar-url";
+import { cx } from "class-variance-authority";
 
-export function Avatar({ username }: { username: string }) {
+export function Avatar({
+  username,
+  indicatorClass,
+}: {
+  username: string;
+  indicatorClass?: string;
+}) {
   const url = useMemo(() => {
     return getGravatarUrl(username);
   }, [username]);
 
-  if (url)
+  const fragment = url ? (
     // eslint-disable-next-line @next/next/no-img-element
-    return <img className="h-full w-full rounded-full" src={url} alt="" />;
+    <img className="rounded-full" src={url} alt="" />
+  ) : (
+    <HeroiconsUserCircle20Solid
+      className="h-full w-full text-gray-500"
+      aria-hidden
+    />
+  );
 
-  return <HeroiconsUserCircle20Solid className="text-gray-500" aria-hidden />;
+  return (
+    <span className="relative">
+      <div className="h-10 w-10">{fragment}</div>
+      {indicatorClass && (
+        <span
+          className={cx(
+            "absolute block h-2 w-2 rounded-full ring-2 ring-white transition-colors",
+            indicatorClass,
+            url ? "right-0 top-0" : "right-1 top-1",
+          )}
+        />
+      )}
+    </span>
+  );
 }
 
 function HeroiconsUserCircle20Solid(props: SVGProps<SVGSVGElement>) {

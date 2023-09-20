@@ -23,15 +23,12 @@ onSet($user, async () => {
     historyTimestamp: Math.floor(Date.now() / 1000) - 5 * 60, // 5 minutes ago
   });
   cable.on("connect", () => {
-    console.log("connect");
     $cableState.set("connected");
   });
   cable.on("disconnect", () => {
-    console.log("disconnect");
     $cableState.set("disconnected");
   });
   cable.on("close", () => {
-    console.log("closed");
     $cableState.set("closed");
   });
 

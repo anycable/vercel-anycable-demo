@@ -17,25 +17,20 @@ export function AvatarActions({
   return (
     <Menu.Root>
       <Menu.Trigger label="My profile">
-        <div className="relative h-8 w-8 hover:opacity-80">
-          <div className="absolute left-0 top-0">
-            <Indicator />
-          </div>
-          <Avatar username={usernameOrEmail} />
-        </div>
+        <WrappedAvatar usernameOrEmail={usernameOrEmail} />
       </Menu.Trigger>
       <Menu.Body align="right">
         <div className="divide-y divide-gray-100">
-          <div className="pb-1">
-            <Menu.ItemRoot>
-              <DisconnectButton />
-            </Menu.ItemRoot>
-
+          <Menu.TextItem>{usernameOrEmail}</Menu.TextItem>
+          <div className="py-1">
             <Menu.TextItem>
               <Status />
             </Menu.TextItem>
+
+            <Menu.ItemRoot>
+              <DisconnectButton />
+            </Menu.ItemRoot>
           </div>
-          <Menu.TextItem>{usernameOrEmail}</Menu.TextItem>
           <div className="pt-1">
             <Menu.ItemRoot disabled>
               <form action={signOutAction}>
@@ -46,6 +41,16 @@ export function AvatarActions({
         </div>
       </Menu.Body>
     </Menu.Root>
+  );
+}
+
+function WrappedAvatar({ usernameOrEmail }: { usernameOrEmail: string }) {
+  const state = useStore($cableState);
+
+  return (
+    <div className="hover:opacity-80">
+      <Avatar username={usernameOrEmail} indicatorClass={bgClass[state]} />
+    </div>
   );
 }
 
@@ -63,7 +68,7 @@ function Status() {
   const state = useStore($cableState);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="-ml-3 flex items-center gap-2">
       <Indicator />
       <div className="text-xs text-gray-500">{state}</div>
     </div>

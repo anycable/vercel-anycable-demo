@@ -1,4 +1,5 @@
 import { cx } from "class-variance-authority";
+import { formatDateToHours } from "../utils/format-date";
 
 export type Message = {
   id: string;
@@ -11,14 +12,6 @@ export type Message = {
 interface Props {
   message: Message;
   mine: boolean;
-}
-
-function formatDate(dateString: string) {
-  const date = new Date(dateString);
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-
-  return `${hours}:${minutes}`;
 }
 
 export const Message = ({ message, mine }: Props) => {
@@ -43,7 +36,7 @@ export const Message = ({ message, mine }: Props) => {
         title={message.createdAt}
         dateTime={message.createdAt}
       >
-        {formatDate(message.createdAt)}
+        {formatDateToHours(message.createdAt)}
       </time>
     </div>
   );

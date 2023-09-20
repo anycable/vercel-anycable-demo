@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createMessage } from "../stores/messages";
+import { Button } from "./button";
 
 export const NewMessageForm = () => {
   const [body, setBody] = useState("");
@@ -32,12 +33,7 @@ export const NewMessageForm = () => {
         />
       </div>
 
-      <input
-        type="submit"
-        name="commit"
-        value="Send"
-        className="cursor-pointer rounded-md bg-red-500 px-5 py-2 text-white hover:bg-red-400"
-      />
+      <Button>Send</Button>
     </form>
   );
 };

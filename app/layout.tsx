@@ -6,10 +6,19 @@ import { cx } from "class-variance-authority";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const title = "AnyCable Next.js Demo",
+  description =
+    "Next.js messaging application using AnyCable as a real-time server and deployed on Vercel";
+
 export const metadata: Metadata = {
-  title: "AnyCable Next.js Demo",
-  description:
-    "Next.js messaging application using AnyCable as a real-time server and deployed on Vercel",
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

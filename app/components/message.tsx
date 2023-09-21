@@ -1,6 +1,6 @@
-import { useStore } from "@nanostores/react";
-import { $user } from "../stores/user";
 import { cx } from "class-variance-authority";
+import { formatDateToHours } from "../utils/format-date";
+import { Avatar } from "./avatar";
 
 export type Message = {
   id: string;
@@ -12,26 +12,40 @@ export type Message = {
 
 interface Props {
   message: Message;
+  mine: boolean;
+  showName: boolean;
+  showAvatar: boolean;
 }
 
-export const Message = ({ message }: Props) => {
-  const { username } = useStore($user);
-  const mine = username === message.username;
-
+export const Message = ({ message, mine, showName, showAvatar }: Props) => {
   return (
     <div
       className={cx(
-        "flex max-w-[85%] flex-col gap-1 rounded-md border px-3 py-2 shadow md:max-w-[66%]",
-        mine ? "self-end border-red-300 bg-red-200" : "self-start bg-white",
+        "relative flex max-w-[85%] flex-col gap-1 rounded-md border p-2 pb-1 shadow md:max-w-[66%]",
+        mine ? "self-end border-red-200 bg-red-100" : "self-start bg-white",
       )}
     >
-      {!mine && (
+      {showAvatar && (
+        <div className="absolute bottom-0 left-0 h-8 w-8 -translate-x-[calc(100%+8px)]">
+          <Avatar username={message.username} />
+        </div>
+      )}
+      {showName && (
         <span className="select-none truncate text-xs font-semibold text-gray-400">
           {message.username}
         </span>
       )}
       <p>{message.body}</p>
-      {/* TODO: Add avatar and timestamps */}
+      <time
+        className={cx(
+          mine ? "text-red-400" : "text-gray-400",
+          "select-none text-right text-xs",
+        )}
+        title={message.createdAt}
+        dateTime={message.createdAt}
+      >
+        {formatDateToHours(message.createdAt)}
+      </time>
     </div>
   );
 };

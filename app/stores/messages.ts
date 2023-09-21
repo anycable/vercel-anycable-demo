@@ -1,18 +1,24 @@
 "use client";
 
-import { atom, onSet } from "nanostores";
+import { atom, computed, onSet } from "nanostores";
 
 import type { Message as IMessage } from "../components/message";
 
 import ChatChannel from "../channels/chat-channel";
-import { $cable, ensureCable } from "./cable";
+import { $cable } from "./cable";
 
 export const $messages = atom<IMessage[]>([]);
 
 export const addAutoScroll = (container: HTMLElement) =>
   onSet($messages, () => {
+    /*
+    Marvelous thing: at some point `scrollTop` started to give me… fractional numbers!
+    Let's pretend that 5 pixel difference doesn't, really matter here.
+    */
     const isCurrentlyAtBottom =
-      container.scrollTop === container.scrollHeight - container.clientHeight;
+      Math.abs(
+        container.scrollTop - (container.scrollHeight - container.clientHeight),
+      ) < 5;
 
     if (isCurrentlyAtBottom) {
       // Wrapping with timeout to scroll after new message is rendered
@@ -21,26 +27,20 @@ export const addAutoScroll = (container: HTMLElement) =>
   });
 
 export const $roomId = atom<string | void>();
-const $channel = atom<ChatChannel | void>();
 
-onSet($roomId, ({ newValue: roomId }) => {
-  $channel.set(roomId ? new ChatChannel({ roomId }) : void 0);
-});
+export const $channel = computed([$cable, $roomId], (cable, roomId) => {
+  if (!cable || !roomId) return;
 
-onSet($channel, async ({ newValue: chatChannel }) => {
+  $channel.value?.disconnect();
+
   $messages.set([]);
+  const channel = new ChatChannel({ roomId });
+  cable.subscribe(channel);
+  channel.on("message", (message) => {
+    addMessage(message);
+  });
 
-  await ensureCable();
-
-  const prev = $channel.value;
-  if (prev) prev.disconnect();
-
-  if (chatChannel) {
-    $cable.value?.subscribe(chatChannel);
-    chatChannel.on("message", (message) => {
-      addMessage(message);
-    });
-  }
+  return channel;
 });
 
 export const addMessage = (message: IMessage) => {

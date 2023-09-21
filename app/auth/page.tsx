@@ -4,6 +4,7 @@ import { Logo } from "./logo";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { identifier } from "../api/cable";
+import { nanoid } from "nanoid";
 
 export default async function AuthPage({
   searchParams,
@@ -29,10 +30,8 @@ export default async function AuthPage({
           maxAge: 3600 * 60,
         });
 
-        let target = "/";
-        if (searchParams.roomId) target += "?roomId=" + searchParams.roomId;
-
-        return redirect(target);
+        const id = searchParams.roomId ?? nanoid();
+        return redirect(`/?roomId=${id}`);
       }
     }
 

@@ -21,6 +21,7 @@ onSet($user, async () => {
   const cable = createCable(url, {
     protocol: "actioncable-v1-ext-json",
     historyTimestamp: Math.floor(Date.now() / 1000) - 5 * 60, // 5 minutes ago
+    logLevel: "debug",
   });
   cable.on("connect", () => {
     $cableState.set("connected");

@@ -29,12 +29,25 @@ class CableApplication extends Application<CableIdentifiers> {
     const params = new URL(url).searchParams;
 
     if (params.has("jid")) {
-      const jwtPayload = await identifier.verifyAndFetch(params.get("jid")!);
+      try {
+        const jwtPayload = await identifier.verifyAndFetch(params.get("jid")!);
 
-      if (jwtPayload) {
-        handle.identifiedBy(jwtPayload);
+        if (jwtPayload) {
+          handle.identifiedBy(jwtPayload);
+        }
+        return;
+      } catch (e) {
+        if ((e as any)?.code == "ERR_JWT_EXPIRED") {
+          console.log(`JWT expired: ${(e as any).message}`);
+          handle.transmit({
+            type: "disconnect",
+            reason: "token_expired",
+            reconnect: false,
+          });
+        } else {
+          throw e;
+        }
       }
-      return;
     }
 
     handle.reject();

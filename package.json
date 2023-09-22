@@ -10,8 +10,9 @@
     "anycable-go": "anycable-go --broadcast_adapter=http --presets=broker --rpc_impl=http --rpc_host=http://localhost:3000/api/anycable"
   },
   "dependencies": {
-    "@anycable/core": "^0.7.6",
-    "@anycable/web": "^0.7.2",
+    "@anycable/core": "^0.7.7",
+    "@anycable/serverless-js": "^0.0.1",
+    "@anycable/web": "^0.7.3",
     "@headlessui/react": "^1.7.17",
     "@nanostores/react": "^0.7.1",
     "@types/md5": "^2.3.2",

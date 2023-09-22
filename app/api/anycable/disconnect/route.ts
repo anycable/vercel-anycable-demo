@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { disconnectHandler, Status } from "@/lib/anycable";
+import { disconnectHandler, Status } from "@anycable/serverless-js";
 import app from "../../cable";
 
 export async function POST(request: Request) {

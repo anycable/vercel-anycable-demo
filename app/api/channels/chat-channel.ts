@@ -1,18 +1,28 @@
-import { Channel, ChannelHandle } from "@/lib/anycable/channel";
+import { Channel, ChannelHandle } from "@anycable/serverless-js";
+import type { ServerAction } from "@anycable/serverless-js";
 import type { CableIdentifiers } from "../cable";
 import { broadcastTo } from "../cable";
 
 import type { SentMessage } from "@/app/channels/chat-channel";
+import { ChatChannelParams, ChatActions } from "@/app/channels/chat-channel";
 import type { Message as IMessage } from "../../components/message";
 
-type ChatChannelParams = {
-  roomId: string;
+type ActionsType = {
+  [K in keyof ChatActions]: ServerAction<
+    ChatActions[K],
+    CableIdentifiers,
+    {},
+    IMessage,
+    ChatChannelParams
+  >;
 };
 
-export default class ChatChannel extends Channel<
-  CableIdentifiers,
-  ChatChannelParams
-> {
+interface Actions extends ActionsType {}
+
+export default class ChatChannel
+  extends Channel<CableIdentifiers, ChatChannelParams, IMessage>
+  implements Actions
+{
   async subscribed(
     handle: ChannelHandle<CableIdentifiers>,
     params: ChatChannelParams | null,

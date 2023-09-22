@@ -6,11 +6,14 @@ settings:
 
 dependencies:
   '@anycable/core':
-    specifier: ^0.7.6
-    version: 0.7.6
+    specifier: ^0.7.7
+    version: 0.7.7
+  '@anycable/serverless-js':
+    specifier: ^0.0.1
+    version: 0.0.1(jose@4.14.6)
   '@anycable/web':
-    specifier: ^0.7.2
-    version: 0.7.2
+    specifier: ^0.7.3
+    version: 0.7.3
   '@headlessui/react':
     specifier: ^1.7.17
     version: 1.7.17(react-dom@18.2.0)(react@18.2.0)
@@ -98,17 +101,26 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /@anycable/core@0.7.6:
-    resolution: {integrity: sha512-EI5jgQeGF/f8lb68houz8dY1BHsQDAdXlIv2COhoCNp4e+KxSfECUJu9jhDs+Cx1aJk0I3/gt9s3tmpbSN5k2g==}
+  /@anycable/core@0.7.7:
+    resolution: {integrity: sha512-4w5FzLbeNnDT+si6eU7AQYOe90hBu3/Ha+RvjcZGGBudlNMvnkIiqnRgva6e/JV3dTgyN5n46O/Z+rHfiKSy8Q==}
     engines: {node: ^14.0.0 || >=16.0.0}
     dependencies:
       nanoevents: 7.0.1
     dev: false
 
-  /@anycable/web@0.7.2:
-    resolution: {integrity: sha512-q+w8bVJLmmdgdSBLvd0ZLTh53C92rO54lHSvR0N3Lu1/w9QLb2OPSflnrrbfWvSpK5LWrH13B0cgbCsoNWHw7g==}
+  /@anycable/serverless-js@0.0.1(jose@4.14.6):
+    resolution: {integrity: sha512-Ye9pRX0q/IqMdGOfiJUdzRU88QSl8oXJccrdcOXbux2Jqt2JfOw5gpPgInnPtLyNzGWM/VxIbHTlt/XQm1Vg2Q==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      jose: ^4.14.6
     dependencies:
-      '@anycable/core': 0.7.6
+      jose: 4.14.6
+    dev: false
+
+  /@anycable/web@0.7.3:
+    resolution: {integrity: sha512-xdVXqB7QXJkqwvNc6+Mu2sK6DHX7F9gax2giopqXS50A8AOZ2ydXa8YYQVizeQwRWQYlQ/93ZN6C/hpiz60nQw==}
+    dependencies:
+      '@anycable/core': 0.7.7
     dev: false
 
   /@babel/runtime@7.22.15:

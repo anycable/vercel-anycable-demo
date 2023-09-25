@@ -5,6 +5,7 @@ import { getRoomLabel } from "./utils/room-label";
 import { Header } from "./components/header/header";
 import { cookies } from "next/headers";
 import { Metadata } from "next";
+import { Intro } from "./components/intro";
 
 export async function generateMetadata({
   searchParams: { roomId },
@@ -32,13 +33,24 @@ export default function Home({
 }: {
   searchParams: { [key: string]: string };
 }) {
-  if (searchParams.roomId)
-    return (
+  if (!searchParams.roomId) {
+    return redirect(`/?roomId=${nanoid()}`);
+  }
+  const showIntro = !cookies().get("introShown")?.value;
+
+  async function introShownAction() {
+    "use server";
+
+    cookies().set("introShown", "1");
+  }
+
+  return (
+    <>
       <Chat
         username={cookies().get("username")!.value}
         header={<Header roomLabel={getRoomLabel(searchParams.roomId)} />}
       />
-    );
-
-  return redirect(`/?roomId=${nanoid()}`);
+      <Intro showIntro={showIntro} introShownAction={introShownAction} />
+    </>
+  );
 }

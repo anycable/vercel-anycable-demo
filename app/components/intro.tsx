@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, SVGProps, useState } from "react";
+import { Fragment, SVGProps, useRef, useState } from "react";
 import { Button } from "./button";
 
 const features = [
@@ -41,6 +41,8 @@ export function Intro({
 }) {
   const [open, setOpen] = useState(showIntro);
 
+  const btn = useRef<HTMLDivElement>(null);
+
   const close = () => {
     introShownAction();
     setOpen(false);
@@ -48,7 +50,12 @@ export function Intro({
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={close}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={close}
+        initialFocus={btn}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -58,7 +65,7 @@ export function Intro({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 backdrop-blur-md transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -93,7 +100,7 @@ export function Intro({
                     </div>
                   ))}
                 </dl>
-                <div className="flex justify-center">
+                <div className="flex justify-center" ref={btn}>
                   <Button onClick={close}>Understood</Button>
                 </div>
               </Dialog.Panel>

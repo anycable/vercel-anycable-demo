@@ -48,7 +48,7 @@ function WrappedAvatar({ usernameOrEmail }: { usernameOrEmail: string }) {
   const state = useStore($cableState);
 
   return (
-    <div className="hover:opacity-80">
+    <div className="h-9 w-9 hover:opacity-80">
       <Avatar username={usernameOrEmail} indicatorClass={bgClass[state]} />
     </div>
   );

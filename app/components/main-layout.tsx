@@ -1,4 +1,5 @@
 import { PropsWithChildren } from "react";
+import { PoweredBy } from "./powered-by";
 
 export function MainLayout(props: PropsWithChildren) {
   return (
@@ -6,6 +7,7 @@ export function MainLayout(props: PropsWithChildren) {
       <div className="mx-auto grid max-w-2xl content-center">
         {props.children}
       </div>
+      <PoweredBy />
     </div>
   );
 }

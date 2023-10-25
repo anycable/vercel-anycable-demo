@@ -5,10 +5,8 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
 
   if (token) {
-    console.log("token", token);
     try {
       await identifier.verify(token);
-      console.log("token verified");
       return;
     } catch (e) {
       console.log(e);

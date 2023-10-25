@@ -48,17 +48,16 @@ Check out [Next.js documentation](https://nextjs.org/docs/pages/building-your-ap
 
 ### Deploying AnyCable-Go
 
-Using [fly CLI](https://fly.io/docs/hands-on/install-flyctl/), run the following commands:
+Using [fly CLI](https://fly.io/docs/hands-on/install-flyctl/), run the following command to create and launch a new AnyCable-Go application:
 
 ```sh
 # Create a new Fly application
-fly apps create --name=vercel-cable
-
-# Deploy the app using the fly.toml configuration
-fly deploy
+fly launch --generate-name --image anycable/anycable-go:1.4 --internal-port 8080 --env PORT=8080 --env ANYCABLE_PRESETS=fly,broker --ha=false
 ```
 
-Finally, connect the AnyCable-Go app to your Vercel app:
+Answer all the questions ("No" to all database-related questions, "Yes" to deployment). In the end, you will a `fly.toml` file with the minimal configuration for your app. See also [fly.toml.example](./fly.toml.example) to learn more about other available (and recommended) configuration options.
+
+Finally, we neet to link the AnyCable-Go app with your Vercel app:
 
 ```sh
 fly secrets set ANYCABLE_RPC_HOST=https://<YOUR_VERCEL_APP_HOSTNAME>/api/anycable

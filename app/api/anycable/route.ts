@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { commandHandler, Status } from "@anycable/serverless-js";
-import app from "../../cable";
+import { handler, Status } from "@anycable/serverless-js";
+import app from "../cable";
 
 export async function POST(request: Request) {
   try {
-    const response = await commandHandler(request, app);
+    const response = await handler(request, app);
     return NextResponse.json(response, {
       status: 200,
     });

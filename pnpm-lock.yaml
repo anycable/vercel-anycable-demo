@@ -9,8 +9,8 @@ dependencies:
     specifier: ^0.7.8
     version: 0.7.8
   '@anycable/serverless-js':
-    specifier: ^0.0.2
-    version: 0.0.2(jose@4.14.6)
+    specifier: ^0.0.3
+    version: 0.0.3
   '@anycable/web':
     specifier: ^0.7.3
     version: 0.7.3
@@ -83,10 +83,10 @@ devDependencies:
     specifier: ^5.0.0
     version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.45.0)(prettier@3.0.3)
   prettier:
-    specifier: ^3.0.1
+    specifier: ^3.0.3
     version: 3.0.3
   prettier-plugin-tailwindcss:
-    specifier: ^0.5.2
+    specifier: ^0.5.4
     version: 0.5.4(prettier@3.0.3)
 
 packages:
@@ -108,11 +108,9 @@ packages:
       nanoevents: 7.0.1
     dev: false
 
-  /@anycable/serverless-js@0.0.2(jose@4.14.6):
-    resolution: {integrity: sha512-OAM0XVA2EXEAmer0LSEy/cONt9dCjjaI7uCeBdJQ/DGXCkz/YPxIqMvgAnMqAby/K1QFVBcGi3YPZaCnldslPA==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      jose: ^4.14.6
+  /@anycable/serverless-js@0.0.3:
+    resolution: {integrity: sha512-9eH0Zo1dDd5HYohyNJGUUD85Mj7airY8GJGNUjGTKN8SWMMRhY2L9Hm0Byp5A1HYQdosQ1DJx9ZELsJ9iFajUw==}
+    engines: {node: '>=18.0.0', pnpm: '>=8.7.5'}
     dependencies:
       jose: 4.14.6
     dev: false

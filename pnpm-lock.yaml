@@ -5,12 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@anycable/anycable-go':
+    specifier: ^1.4.6
+    version: 1.4.6
   '@anycable/core':
     specifier: ^0.7.8
     version: 0.7.8
   '@anycable/serverless-js':
-    specifier: ^0.0.3
-    version: 0.0.3
+    specifier: ^0.1.0
+    version: 0.1.0
   '@anycable/web':
     specifier: ^0.7.3
     version: 0.7.3
@@ -101,6 +104,15 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /@anycable/anycable-go@1.4.6:
+    resolution: {integrity: sha512-kBxpDVUuNnDBxpcsNgsh7DICGVQLu0y3uPK9PqfVekLfULOAN22gYY7IHbOotTpTghmE9jkU7eXAS+wiXVZvuw==}
+    cpu: [x64, arm64]
+    os: [darwin, linux, win32]
+    hasBin: true
+    dependencies:
+      node-downloader-helper: 1.0.19
+    dev: false
+
   /@anycable/core@0.7.8:
     resolution: {integrity: sha512-xODNnL0iFLxKW2zxjAkM736b/GBV3a6d9gmywM3lV7LK1N+Brk7WkWX1V6MGtdcVOM0BkmuE9RMBQk3rv6JN/A==}
     engines: {node: ^14.0.0 || >=16.0.0}
@@ -108,8 +120,8 @@ packages:
       nanoevents: 7.0.1
     dev: false
 
-  /@anycable/serverless-js@0.0.3:
-    resolution: {integrity: sha512-9eH0Zo1dDd5HYohyNJGUUD85Mj7airY8GJGNUjGTKN8SWMMRhY2L9Hm0Byp5A1HYQdosQ1DJx9ZELsJ9iFajUw==}
+  /@anycable/serverless-js@0.1.0:
+    resolution: {integrity: sha512-SuX8Nr4kC01QsfulAyX4krLb3xy+c/Fze22/0TYmUe+uzFBTloC0N2wThj4k5b8qKEzOSWLCztuRmvyzMC5eow==}
     engines: {node: '>=18.0.0', pnpm: '>=8.7.5'}
     dependencies:
       jose: 4.14.6
@@ -2112,6 +2124,12 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: false
+
+  /node-downloader-helper@1.0.19:
+    resolution: {integrity: sha512-Bwp8WWDDP5ftg+FmAKU08a9+oiUTPoYzMvXgUqZZPQ7VMo1qKBzW3XdTXHeYnqjGLfkTZ2GPibgAWpApfpeS2g==}
+    engines: {node: '>=6.9'}
+    hasBin: true
     dev: false
 
   /node-releases@2.0.13:

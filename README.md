@@ -19,12 +19,7 @@ First, install the dependencies:
 ```bash
 # Next.js project
 pnpm install
-
-# AnyCable-Go
-brew install anycable-go
 ```
-
-See [AnyCable-Go documentation](https://docs.anycable.io/anycable-go/getting_started?id=installation) for other installations options.
 
 Then, start AnyCable-Go:
 

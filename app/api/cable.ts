@@ -10,9 +10,11 @@ export type CableIdentifiers = {
   username: string;
 };
 
+export const CABLE_URL = process.env.CABLE_URL || "ws://localhost:8080/cable";
+
 // Broadcasting configuration
 const broadcastURL =
-  process.env.ANYCABLE_BROADCAST_URL || "http://127.0.0.1:8090/_broadcast";
+  process.env.ANYCABLE_HTTP_BROADCAST_URL || "http://localhost:8090/_broadcast";
 const broadcastToken = process.env.ANYCABLE_HTTP_BROADCAST_SECRET || "";
 
 export const broadcastTo = broadcaster(broadcastURL, broadcastToken);

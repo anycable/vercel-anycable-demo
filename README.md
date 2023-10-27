@@ -47,32 +47,35 @@ Using [fly CLI](https://fly.io/docs/hands-on/install-flyctl/), run the following
 
 ```sh
 # Create a new Fly application
-fly launch --generate-name --image anycable/anycable-go:1.4 --internal-port 8080 --env PORT=8080 --env ANYCABLE_PRESETS=fly,broker --ha=false
+fly launch --image anycable/anycable-go:1.4 --generate-name --ha=false --internal-port 8080 --env PORT=8080 --env ANYCABLE_PRESETS=fly,broker
 ```
 
 Answer all the questions ("No" to all database-related questions, "Yes" to deployment). In the end, you will a `fly.toml` file with the minimal configuration for your app. See also [fly.toml.example](./fly.toml.example) to learn more about other available (and recommended) configuration options.
 
+### Configuring and linking the apps
+
+Now, we need to tell both apps how to find each other and configure shared secrets. For that, we recommend creating an `.env.production` file with the following contents:
+
+```env
+CABLE_URL=wss://<YOUR_FLY_APP_HOSTNAME>/cable
+ANYCABLE_RPC_HOST=https://<YOUR_VERCEL_APP_HOSTNAME>/api/anycable
+ANYCABLE_HTTP_BROADCAST_URL=https://<YOUR_FLY_APP_HOSTNAME>/_broadcast
+ANYCABLE_HTTP_BROADCAST_SECRET=<YOUR_SECRET>
+ANYCABLE_JWT_ID_KEY=<YOUR_JWT_KEY>
+```
+
+Now, let's provision our apps with these parameters. First, let's set Fly secrets using the following command:
+
 Finally, we neet to link the AnyCable-Go app with your Vercel app:
 
 ```sh
-fly secrets set ANYCABLE_RPC_HOST=https://<YOUR_VERCEL_APP_HOSTNAME>/api/anycable
+cat .env.production | fly secrets import
 ```
 
-In the Vercel app configuration, specify the following env vars:
-
-- `CABLE_URL`: set it to `<YOUR_FLY_APP_HOSTNAME>/cable` (e.g., `wss://vercel-cable.fly.dev/cable`).
-- `ANYCABLE_BROADCAST_URL`: set it to `<YOUR_FLY_APP_HOSTNAME>/_broadcast` (e.g., `https://vercel-cable.fly.dev/_broadcast`).
-
-It's recommend to protect the broadcasting endpoint with a secret token. You can do it by setting the `ANYCABLE_HTTP_BROADCAST_SECRET` environment variable for **both apps**:
-
-```sh
-fly secrets set ANYCABLE_HTTP_BROADCAST_SECRET=<YOUR_SECRET>
-```
-
-Set the same secret in the Vercel app configuration.
+In the Vercel app configuration, you can copy-paste the contents of the `.env.production` file (or import it) on the Environment Variables configuration page.
 
 ### Authentication
 
 We use [AnyCable JWT identification](https://docs.anycable.io/anycable-go/jwt_identification) feature to issue JWT tokens to authenticate clients. The benefit of using AnyCable JWTs is the ability to verify and identify clients at the WebSocket server side without making additional requests to the backend (Vercel functions in our case).
 
-In order to fully leverage this feature, configure the same JWT secret via the `ANYCABLE_JWT_ID_KEY` environment variable for **both apps**.
+The `ANYCABLE_JWT_ID_KEY` environment variable is responsible for that.

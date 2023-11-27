@@ -2,6 +2,8 @@
 
 This is an example of how to use [AnyCable](https://anycable.io) with [Next.js](https://nextjs.org) and [Vercel](https://vercel.com) to build real-time applications.
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fanycable%2Fvercel-anycable-demo&env=CABLE_URL,ANYCABLE_HTTP_BROADCAST_URL,ANYCABLE_HTTP_BROADCAST_SECRET,ANYCABLE_JWT_ID_KEY&envDescription=Link%20Vercel%20application%20with%20AnyCable%20server&envLink=https%3A%2F%2Fgithub.com%2Fanycable%2Fvercel-anycable-demo%23configuring-and-linking-the-apps)
+
 ## Architecture overview
 
 The Next.js app is deployed to Vercel. AnyCable-Go is deployed to [Fly.io](https://fly.io) and communicates with the Next app via Vercel serverless functions for authorization and handling RPC calls over WebSockets.

@@ -8,10 +8,13 @@ processes = []
 
 [env]
   PORT = "8080"
-  ANYCABLE_PRESETS = "fly,broker"
+  ANYCABLE_BROKER = "memory"
   # ANYCABLE_HTTP_BROADCAST_SECRET = "" # set via secrets
   # ANYCABLE_RPC_HOST = "" # set via secrets
   # ANYCABLE_DEBUG = "true" # uncomment to enable debug logging
+
+  # ADVANCED: enable NATS broker for multi-node setup (NOTE: at least 3 nodes are required)
+  # ANYCABLE_BROKER = "nats"
 
 [[services]]
   http_checks = []
@@ -19,6 +22,12 @@ processes = []
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
+
+  # ADVANCED: Configure the size of the cluster when using NATS-based broker
+  # auto_stop_machines = true
+  # auto_start_machines = true
+  # min_machines_running = 3
+
   [services.concurrency]
     hard_limit = 10000
     soft_limit = 10000

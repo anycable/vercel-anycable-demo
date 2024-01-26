@@ -1,34 +1,29 @@
 # AnyCable Next.js/Vercel Example
 
-This is an example of how to use [AnyCable](https://anycable.io) with [Next.js](https://nextjs.org) and [Vercel](https://vercel.com) to build real-time applications.
-
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fanycable%2Fvercel-anycable-demo&env=CABLE_URL,ANYCABLE_HTTP_BROADCAST_URL,ANYCABLE_HTTP_BROADCAST_SECRET,ANYCABLE_JWT_ID_KEY&envDescription=Link%20Vercel%20application%20with%20AnyCable%20server&envLink=https%3A%2F%2Fgithub.com%2Fanycable%2Fvercel-anycable-demo&project-name=vercel-anycable-demo&repository-name=vercel-anycable-demo)
+
+This is an example of how to use [AnyCable](https://anycable.io) with [Next.js](https://nextjs.org) and [Vercel](https://vercel.com) to build real-time applications.
 
 Learn more about AnyCable for serverless JavaScript apps in [the documentation](https://docs.anycable.io/guides/serverless).
 
-## Deployment
+## Prerequisites
 
-### Prerequisites
-
-You need to deploy AnyCable-Go server to the platform of your choice. For a quick start, we recommend using [Fly.io](https://fly.io) and provide an example configuraiton.
-
-> [!NOTE]
-> AnyCable-Go can be deployed to any platform. We use Fly.io in this example because it's easy to deploy and manage.
+You will need to deploy an AnyCable-Go server to the platform of your choice. We recommend using [Fly.io](https://fly.io) and provide an example configuration in `fly.toml.example` for seamless deployments. However, Anycable-Go server can be deployed on any platform.
 
 Using [fly CLI](https://fly.io/docs/hands-on/install-flyctl/), run the following command to create and launch a new AnyCable-Go application:
 
 ```sh
 # Create a new Fly application
-fly launch --image anycable/anycable-go:1.4 --generate-name --ha=false --internal-port 8080 --env PORT=8080 --env ANYCABLE_PRESETS=fly,broker
-```
+fly launch --image anycable/anycable-go:1.4 --generate-name --ha=false --internal-port 8080 --env PORT=8080 --env ANYCABLE_BROKER=memory
 
-Answer all the questions ("No" to all database-related questions, "Yes" to deployment). In the end, you will a `fly.toml` file with the minimal configuration for your app. See also [fly.toml.example](./fly.toml.example) to learn more about other available (and recommended) configuration options.
 
-### Steps
+Answer "No" to all database-related questions and "Yes" to deployment. This will deploy your app and create a `fly.toml` file with the minimum configuration. See the `fly.toml.example` file to learn more about other available and recommended configuration options.
 
-- Click on "Deploy" button
+## Deployment
 
-- Fill the required environment variables as follows:
+- Click the **Deploy** button
+
+- Fill in the required environment variables:
 
   ```env
   CABLE_URL=wss://<YOUR_ANYCABLE_GO_HOSTNAME>/cable
@@ -37,9 +32,10 @@ Answer all the questions ("No" to all database-related questions, "Yes" to deplo
   ANYCABLE_JWT_ID_KEY=<YOUR_JWT_SECRET>
   ```
 
-  Feel free to use any strings as secrets (but don't forget to keep them in a safe and secure place).
+  * The `ANYCABLE_HTTP_BROADCAST_SECRET` and `ANYCABLE_JWT_ID_KEY` can be any strings.
+  * You can create a secure value using this CLI command `openssl rand -hex 32`
 
-- Finally, link AnyCable-Go server with your Vercel app by setting the following environment variables (at the AnyCable-Go side):
+- Set the following environment variables on your AnyCable-Go server:
 
   ```env
   ANYCABLE_RPC_HOST=https://<YOUR_VERCEL_APP_HOSTNAME>/api/anycable
@@ -53,23 +49,25 @@ When using Fly, you can keep all env vars in the `.env.production` file and impo
 cat .env.production | fly secrets import
 ```
 
-In the Vercel app configuration, you can copy-paste the contents of the `.env.production` file (or import it) on the Environment Variables configuration page.
+When deploying to Vercel you can use the [Vercel CLI](https://vercel.com/docs/cli) to pull environment variables:
+
+```sh
+vercel env pull
+```
 
 ### Authentication
 
-We use [AnyCable JWT identification](https://docs.anycable.io/anycable-go/jwt_identification) feature to issue JWT tokens to authenticate clients. The benefit of using AnyCable JWTs is the ability to verify and identify clients at the WebSocket server side without making additional requests to the backend (Vercel functions in our case).
+We use the [AnyCable JWT identification](https://docs.anycable.io/anycable-go/jwt_identification) feature to issue JWT tokens to authenticate clients. The benefit of using AnyCable JWTs is the ability to verify and identify clients at the WebSocket server side without making additional requests to the backend (Vercel functions in our case).
 
-The `ANYCABLE_JWT_ID_KEY` environment variable is responsible for that.
+The `ANYCABLE_JWT_ID_KEY` environment variable is responsible for this.
 
 ## Running locally
 
-> [!NOTE]
 > [PNPM](https://pnpm.io/installation) is required to install dependencies.
 
 First, install the dependencies:
 
 ```bash
-# Next.js project
 pnpm install
 ```
 

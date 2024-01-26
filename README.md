@@ -15,7 +15,7 @@ Using [fly CLI](https://fly.io/docs/hands-on/install-flyctl/), run the following
 ```sh
 # Create a new Fly application
 fly launch --image anycable/anycable-go:1.4 --generate-name --ha=false --internal-port 8080 --env PORT=8080 --env ANYCABLE_BROKER=memory
-
+```
 
 Answer "No" to all database-related questions and "Yes" to deployment. This will deploy your app and create a `fly.toml` file with the minimum configuration. See the `fly.toml.example` file to learn more about other available and recommended configuration options.
 

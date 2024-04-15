@@ -1,6 +1,7 @@
-import { SVGProps, useMemo } from "react";
-import { getGravatarUrl } from "../utils/gravatar-url";
 import { cx } from "class-variance-authority";
+import { SVGProps, useMemo } from "react";
+
+import { getGravatarUrl } from "../utils/gravatar-url";
 
 export function Avatar({
   username,
@@ -18,7 +19,7 @@ export function Avatar({
     <img className="rounded-full" src={url} alt="" />
   ) : (
     <TeenyiconsUserCircleSolid
-      className="h-full w-full text-gray-500"
+      className="h-full w-full text-zinc-500"
       aria-hidden
     />
   );

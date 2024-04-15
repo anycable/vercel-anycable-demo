@@ -1,8 +1,10 @@
 "use client";
 
-import { atom, onSet } from "nanostores";
 import type { Cable } from "@anycable/core";
+
 import { createCable } from "@anycable/web";
+import { atom, onSet } from "nanostores";
+
 import { $user } from "./user";
 
 export const $cable = atom<Cable | void>();

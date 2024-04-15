@@ -1,11 +1,12 @@
-import { redirect } from "next/navigation";
-import { Chat } from "./components/chat";
 import { nanoid } from "nanoid";
-import { getRoomLabel } from "./utils/room-label";
-import { Header } from "./components/header/header";
-import { cookies } from "next/headers";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+import { Chat } from "./components/chat";
+import { Header } from "./components/header/header";
 import { Intro } from "./components/intro";
+import { getRoomLabel } from "./utils/room-label";
 
 export async function generateMetadata({
   searchParams: { roomId },

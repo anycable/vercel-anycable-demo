@@ -1,7 +1,8 @@
 "use client";
 
+import { useFormStatus } from "react-dom";
+
 import { Button } from "../button";
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
 export function SignOutButton({ action }: { action: () => void }) {
   return (

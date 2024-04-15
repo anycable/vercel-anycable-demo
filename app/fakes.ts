@@ -1,8 +1,7 @@
 "use client";
 
-// TEMP: Fake data
-import { $user } from "./stores/user";
 import { addMessage } from "./stores/messages";
+import { $user } from "./stores/user";
 
 // Generate 5 random messages
 const messages = [

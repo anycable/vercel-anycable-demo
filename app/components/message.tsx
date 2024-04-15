@@ -1,4 +1,5 @@
 import { cx } from "class-variance-authority";
+
 import { formatDateToHours } from "../utils/format-date";
 import { Avatar } from "./avatar";
 
@@ -31,14 +32,14 @@ export const Message = ({ message, mine, showName, showAvatar }: Props) => {
         </div>
       )}
       {showName && (
-        <span className="select-none truncate text-xs font-semibold text-gray-400">
+        <span className="select-none truncate text-xs font-semibold text-zinc-400">
           {message.username}
         </span>
       )}
       <p>{message.body}</p>
       <time
         className={cx(
-          mine ? "text-red-400" : "text-gray-400",
+          mine ? "text-red-400" : "text-zinc-400",
           "select-none text-right text-xs",
         )}
         title={message.createdAt}

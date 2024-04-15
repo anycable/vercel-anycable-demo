@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { identifier, CABLE_URL } from "../../cable";
+import { NextResponse } from "next/server";
+
+import { CABLE_URL, identifier } from "../../cable";
 
 export async function POST(request: Request) {
   const token = cookies().get("token")?.value;

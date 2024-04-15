@@ -1,9 +1,10 @@
 "use client";
 
 import { useStore } from "@nanostores/react";
+
 import { $messages } from "../stores/messages";
-import { Message } from "./message";
 import { $user } from "../stores/user";
+import { Message } from "./message";
 
 export const MessageList = () => {
   const messages = useStore($messages);
@@ -35,7 +36,7 @@ export const MessageList = () => {
         );
       })}
       {!messages.length && (
-        <p className="text-center text-sm text-gray-500">{`No messages have bees seen here recently. Don't be shy, send something!`}</p>
+        <p className="text-center text-sm text-zinc-600">{`No messages have been seen here recently. Don't be shy, send something!`}</p>
       )}
     </div>
   );

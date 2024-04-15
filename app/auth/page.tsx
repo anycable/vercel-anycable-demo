@@ -1,10 +1,11 @@
+import { nanoid } from "nanoid";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+import { identifier } from "../api/cable";
 import { AuthForm } from "../components/auth-form";
 import { MainLayout } from "../components/main-layout";
 import { Logo } from "./logo";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
-import { identifier } from "../api/cable";
-import { nanoid } from "nanoid";
 
 export default async function AuthPage({
   searchParams,

@@ -1,5 +1,5 @@
 import { isRoomLabel } from "@/app/utils/room-label";
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
@@ -24,12 +24,12 @@ export async function GET(request: Request) {
           }}
         >
           <div tw="flex">
-            <div tw="text-gray-500">Join room: </div>
+            <div tw="text-zinc-500">Join room: </div>
             <div style={{ fontWeight: 800 }} tw="ml-2">
               {roomLabel}
             </div>
           </div>
-          <div tw="text-2xl mt-8 text-gray-500">Powered by AnyCable</div>
+          <div tw="text-2xl mt-8 text-zinc-500">Powered by AnyCable</div>
         </div>
         <svg
           style={{

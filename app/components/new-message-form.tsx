@@ -1,10 +1,11 @@
 "use client";
 
+import { useStore } from "@nanostores/react";
 import { useState } from "react";
+
+import { $cableState } from "../stores/cable";
 import { createMessage } from "../stores/messages";
 import { Button } from "./button";
-import { useStore } from "@nanostores/react";
-import { $cableState } from "../stores/cable";
 
 export const NewMessageForm = () => {
   const [body, setBody] = useState("");
@@ -29,7 +30,7 @@ export const NewMessageForm = () => {
         </label>
         <input
           id="message"
-          className="h-full w-full rounded-md border-0 px-2.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+          className="h-full w-full rounded-md border-0 px-2.5 py-1.5 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 sm:text-sm sm:leading-6"
           value={body}
           onChange={(e) => setBody(e.target.value)}
           autoComplete="off"

@@ -4,6 +4,7 @@ import {
   broadcaster,
   identificator,
 } from "@anycable/serverless-js";
+
 import ChatChannel from "./channels/chat-channel";
 
 export type CableIdentifiers = {

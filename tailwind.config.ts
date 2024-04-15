@@ -1,4 +1,6 @@
 import type { Config } from "tailwindcss";
+
+import harmonyPalette from "@evilmartians/harmony/tailwind";
 import plugin from "tailwindcss/plugin";
 
 const config: Config = {
@@ -8,6 +10,7 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: harmonyPalette,
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

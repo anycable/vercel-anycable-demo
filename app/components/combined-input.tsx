@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, createContext, useContext, PropsWithChildren } from "react";
+import { PropsWithChildren, createContext, useContext, useId } from "react";
 
 const IdContext = createContext<string>("");
 const useCtxId = () => useContext(IdContext);
@@ -25,7 +25,7 @@ function Input(props: JSX.IntrinsicElements["input"]) {
     <div className="relative flex flex-grow items-stretch focus-within:z-10">
       <input
         id={useCtxId()}
-        className="block w-full rounded-none rounded-l-md border-0 px-2.5 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+        className="block w-full rounded-none rounded-l-md border-0 px-2.5 py-1.5 text-zinc-900 ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-400 sm:text-sm sm:leading-6"
         {...props}
       />
     </div>
@@ -35,7 +35,7 @@ function Input(props: JSX.IntrinsicElements["input"]) {
 function Button(props: JSX.IntrinsicElements["button"]) {
   return (
     <button
-      className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 enabled:hover:bg-gray-50 disabled:cursor-not-allowed disabled:bg-gray-200"
+      className="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-zinc-900 ring-1 ring-inset ring-zinc-300 enabled:hover:bg-zinc-50 disabled:cursor-not-allowed disabled:bg-zinc-200"
       {...props}
     />
   );

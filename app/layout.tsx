@@ -1,8 +1,10 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { MainLayout } from "./components/main-layout";
+
 import { cx } from "class-variance-authority";
+import { Inter } from "next/font/google";
+
+import { MainLayout } from "./components/main-layout";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,7 +45,7 @@ export default function RootLayout({
           sizes="16x16"
         />
       </head>
-      <body className={cx(inter.className, "bg-red-50")}>
+      <body className={cx(inter.className, "bg-red-100/70")}>
         <MainLayout>{children}</MainLayout>
       </body>
     </html>

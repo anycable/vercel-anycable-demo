@@ -1,11 +1,12 @@
 "use client";
 
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
-import { Menu } from "../menu";
-import { Avatar } from "../avatar";
 import { $cable, $cableState, CableState } from "@/app/stores/cable";
 import { useStore } from "@nanostores/react";
 import { cx } from "class-variance-authority";
+import { useFormStatus } from "react-dom";
+
+import { Avatar } from "../avatar";
+import { Menu } from "../menu";
 
 export function AvatarActions({
   usernameOrEmail,
@@ -20,7 +21,7 @@ export function AvatarActions({
         <WrappedAvatar usernameOrEmail={usernameOrEmail} />
       </Menu.Trigger>
       <Menu.Body align="right">
-        <div className="divide-y divide-gray-100">
+        <div className="divide-y divide-zinc-100">
           <Menu.TextItem>{usernameOrEmail}</Menu.TextItem>
           <div className="py-1">
             <Menu.TextItem>
@@ -70,17 +71,17 @@ function Status() {
   return (
     <div className="-ml-3 flex items-center gap-2">
       <Indicator />
-      <div className="text-xs text-gray-500">{state}</div>
+      <div className="text-xs text-zinc-500">{state}</div>
     </div>
   );
 }
 
 const bgClass: Record<CableState, string> = {
-  idle: "bg-green-400",
+  idle: "bg-emerald-400",
   disconnected: "bg-red-400",
   connecting: "bg-blue-400",
-  connected: "bg-green-400",
-  closed: "bg-gray-400",
+  connected: "bg-emerald-400",
+  closed: "bg-zinc-400",
 };
 function Indicator() {
   const state = useStore($cableState);

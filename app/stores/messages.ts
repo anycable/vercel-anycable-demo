@@ -9,6 +9,26 @@ import { $cable } from "./cable";
 
 export const $messages = atom<IMessage[]>([]);
 
+export const $publishableHistory = computed($messages, (messages) => {
+  let lastIndex = messages.length - 1;
+  const messagesHistory: IMessage[] = [];
+  while (true) {
+    if (lastIndex < 0 || messagesHistory.length === 3) break;
+
+    const message = messages[lastIndex];
+    if (!message || message.ai) break;
+
+    messagesHistory.push(message);
+    lastIndex--;
+  }
+
+  const result = messagesHistory
+    .map((message) => `${message.username}: """${message.body}"""`)
+    .join("\n");
+
+  return result;
+});
+
 export const addAutoScroll = (container: HTMLElement) =>
   onSet($messages, () => {
     /*
@@ -47,6 +67,6 @@ export const addMessage = (message: IMessage) => {
   $messages.set([...$messages.get(), message]);
 };
 
-export const createMessage = async (body: string) => {
-  $channel.value?.sendMessage({ body });
+export const createMessage = async (body: string, history: string) => {
+  $channel.value?.sendMessage({ body, history });
 };

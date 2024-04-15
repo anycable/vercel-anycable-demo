@@ -4,13 +4,14 @@ import { useStore } from "@nanostores/react";
 import { useState } from "react";
 
 import { $cableState } from "../stores/cable";
-import { createMessage } from "../stores/messages";
+import { $publishableHistory, createMessage } from "../stores/messages";
 import { Button } from "./button";
 
 export const NewMessageForm = () => {
   const [body, setBody] = useState("");
   const state = useStore($cableState);
   const submitDisabled = state !== "idle" && state !== "connected";
+  const history = useStore($publishableHistory);
 
   return (
     <form
@@ -19,11 +20,12 @@ export const NewMessageForm = () => {
         e.preventDefault();
 
         if (body && !submitDisabled) {
-          createMessage(body);
+          createMessage(body, history);
           setBody("");
         }
       }}
     >
+      <input type="hidden" name="history" value={history} />
       <div className="flex-grow">
         <label htmlFor="message" className="sr-only">
           Message

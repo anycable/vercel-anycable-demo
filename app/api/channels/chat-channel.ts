@@ -8,6 +8,7 @@ import { nanoid } from "nanoid";
 import type { Message as IMessage } from "../../components/message";
 import type { CableIdentifiers } from "../cable";
 
+import { AIAssistant } from "../assistant/assistant";
 import { broadcastTo } from "../cable";
 
 type ActionsType = {
@@ -26,6 +27,10 @@ export default class ChatChannel
   extends Channel<CableIdentifiers, ChatChannelParams, IMessage>
   implements Actions
 {
+  constructor(private aiAssistant = new AIAssistant()) {
+    super();
+  }
+
   async subscribed(
     handle: ChannelHandle<CableIdentifiers>,
     params: ChatChannelParams | null,
@@ -48,7 +53,7 @@ export default class ChatChannel
     params: ChatChannelParams,
     data: SentMessage,
   ) {
-    const { body } = data;
+    const { body, history } = data;
 
     if (!body) {
       throw new Error("Body is required");
@@ -64,7 +69,9 @@ export default class ChatChannel
       body,
       createdAt: new Date().toISOString(),
     };
+    const roomName = `room:${params.roomId}`;
 
-    await broadcastTo(`room:${params.roomId}`, message);
+    await broadcastTo(roomName, message);
+    await this.aiAssistant.startChain(roomName, history);
   }
 }

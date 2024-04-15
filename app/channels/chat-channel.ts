@@ -6,6 +6,7 @@ import type { Message as IMessage } from "../components/message";
 
 export type SentMessage = {
   body: string;
+  history: string;
 };
 
 export type ChatChannelParams = {

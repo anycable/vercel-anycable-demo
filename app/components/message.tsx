@@ -9,6 +9,7 @@ export type Message = {
   avatar?: string;
   body: string;
   createdAt: string;
+  ai?: boolean;
 };
 
 interface Props {

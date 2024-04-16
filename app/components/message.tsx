@@ -1,5 +1,10 @@
+import { $messages } from "@/stores/messages";
 import { formatDateToHours } from "@/utils/format-date";
+import { exists } from "@/utils/ts";
+import { useStore } from "@nanostores/react";
+import TeenyiconsLoaderSolid from "~icons/teenyicons/loader-solid";
 import { type VariantProps, cva } from "class-variance-authority";
+import { memo } from "react";
 
 import { Avatar } from "./avatar";
 
@@ -19,17 +24,20 @@ export type IUserMessage = {
 
 export type IAIMessage = { ai: true; loading?: boolean } & BaseMessage;
 
-type Props<T> = {
-  message: T;
+type Props = {
   showName: boolean;
 } & VariantProps<typeof _messageBubble>;
 
-export const Message = ({
-  message,
+export const Message = memo(function Message({
+  messageIndex,
   type,
   showAvatar,
   showName,
-}: { showAvatar: boolean } & Props<IAIMessage | IUserMessage>) => {
+}: { showAvatar: boolean; messageIndex: number } & Props) {
+  const message = exists(
+    useStore($messages, { keys: [`m[${messageIndex}]`] }).m[messageIndex],
+  );
+
   return (
     <div className={_root({ type })}>
       {type === "other" && (
@@ -45,20 +53,20 @@ export const Message = ({
 
       <div className={_messageBubble({ type })}>
         {message.ai ? (
-          <AIMessage message={message as IAIMessage} />
+          <AIMessage message={message} />
         ) : (
-          <UserMessage
-            message={message as IUserMessage}
-            type={type}
-            showName={showName}
-          />
+          <UserMessage message={message} type={type} showName={showName} />
         )}
       </div>
     </div>
   );
-};
+});
 
-const UserMessage = ({ message, type, showName }: Props<IUserMessage>) => {
+const UserMessage = ({
+  message,
+  type,
+  showName,
+}: { message: IUserMessage } & Props) => {
   return (
     <>
       {showName && (
@@ -84,14 +92,23 @@ const AIMessage = ({ message }: { message: IAIMessage }) => {
       <span className="select-none truncate text-xs font-semibold text-emerald-400">
         AI Assistant
       </span>
-      <p>{message.body}</p>
-      <time
-        className={_messageTimestamp({ type: "other" })}
-        title={message.createdAt}
-        dateTime={message.createdAt}
-      >
-        {formatDateToHours(message.createdAt)}
-      </time>
+      {message.loading ? (
+        <div className="inline-flex select-none items-center gap-2">
+          <TeenyiconsLoaderSolid className="size-4 animate-spin text-zinc-500" />
+          <span className="text-zinc-700">Thinking…</span>
+        </div>
+      ) : (
+        <>
+          <p>{message.body}</p>
+          <time
+            className={_messageTimestamp({ type: "other" })}
+            title={message.createdAt}
+            dateTime={message.createdAt}
+          >
+            {formatDateToHours(message.createdAt)}
+          </time>
+        </>
+      )}
     </>
   );
 };

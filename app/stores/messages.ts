@@ -1,15 +1,16 @@
 "use client";
 
-import { atom, computed, onSet } from "nanostores";
+import { exists } from "@/utils/ts";
+import { atom, computed, deepMap, onSet } from "nanostores";
 
 import type { IMessage, IUserMessage } from "../components/message";
 
 import ChatChannel from "../channels/chat-channel";
 import { $cable } from "./cable";
 
-export const $messages = atom<IMessage[]>([]);
+export const $messages = deepMap<{ m: IMessage[] }>({ m: [] });
 
-export const $publishableHistory = computed($messages, (messages) => {
+export const $publishableHistory = computed($messages, ({ m: messages }) => {
   let lastIndex = messages.length - 1;
   const messagesHistory: IUserMessage[] = [];
   while (true) {
@@ -53,7 +54,7 @@ export const $channel = computed([$cable, $roomId], (cable, roomId) => {
 
   $channel.value?.disconnect();
 
-  $messages.set([]);
+  $messages.set({ m: [] });
   const channel = new ChatChannel({ roomId });
   cable.subscribe(channel);
   channel.on("message", (message) => {
@@ -64,7 +65,26 @@ export const $channel = computed([$cable, $roomId], (cable, roomId) => {
 });
 
 export const addMessage = (message: IMessage) => {
-  $messages.set([...$messages.get(), message]);
+  const { m: messages } = exists($messages.value);
+  $messages.setKey(`m[${messages.length}]`, message);
+};
+
+export const updateMessage = (message: IMessage) => {
+  const { m: messages } = exists($messages.value);
+  let msgToUpdate: IMessage | null = null,
+    index: null | number = null;
+  for (let i = 0; i < messages.length; i++) {
+    const curr = messages[i];
+    if (curr?.id === message.id) {
+      index = i;
+      msgToUpdate = curr;
+      break;
+    }
+  }
+
+  if (msgToUpdate && index !== null) {
+    $messages.setKey(`m[${index}]`, message);
+  }
 };
 
 export const createMessage = async (body: string, history: string) => {

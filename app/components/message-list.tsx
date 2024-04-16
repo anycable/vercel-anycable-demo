@@ -8,7 +8,7 @@ import { ComponentProps } from "react";
 import { Message } from "./message";
 
 export const MessageList = () => {
-  const messages = useStore($messages);
+  const { m: messages } = useStore($messages);
   const user = useStore($user);
 
   return (
@@ -44,7 +44,7 @@ export const MessageList = () => {
         return (
           <Message
             key={message.id}
-            message={message}
+            messageIndex={i}
             type={type}
             showName={showName}
             showAvatar={showAvatar}

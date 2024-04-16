@@ -31,11 +31,10 @@ export class AIAssistant {
 
     const message: IAIMessage = {
       id: nanoid(),
-      body: "I'll try to help, wait!",
+      body: "",
       createdAt: new Date().toISOString(),
       ai: true,
     };
-
     await broadcastTo(roomName, message);
   }
 }

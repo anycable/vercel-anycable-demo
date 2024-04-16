@@ -1,11 +1,11 @@
-import type { SentMessage } from "@/app/channels/chat-channel";
+import type { SentMessage } from "@/channels/chat-channel";
+import type { IMessage, IUserMessage } from "@/components/message";
 import type { ServerAction } from "@anycable/serverless-js";
 
-import { ChatActions, ChatChannelParams } from "@/app/channels/chat-channel";
+import { ChatActions, ChatChannelParams } from "@/channels/chat-channel";
 import { Channel, ChannelHandle } from "@anycable/serverless-js";
 import { nanoid } from "nanoid";
 
-import type { Message as IMessage } from "../../components/message";
 import type { CableIdentifiers } from "../cable";
 
 import { AIAssistant } from "../assistant/assistant";
@@ -63,7 +63,7 @@ export default class ChatChannel
       `User ${handle.identifiers!.username} sent message: ${data.body}`,
     );
 
-    const message: IMessage = {
+    const message: IUserMessage = {
       id: nanoid(),
       username: handle.identifiers!.username,
       body,
@@ -72,6 +72,10 @@ export default class ChatChannel
     const roomName = `room:${params.roomId}`;
 
     await broadcastTo(roomName, message);
-    await this.aiAssistant.startChain(roomName, history);
+    await this.aiAssistant.startChain(
+      roomName,
+      // Appending current message to the history
+      history + `\n${handle.identifiers!.username}: ${body}`,
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { isRoomLabel } from "@/app/utils/room-label";
+import { isRoomLabel } from "@/utils/room-label";
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";

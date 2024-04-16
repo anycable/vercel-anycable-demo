@@ -1,45 +1,58 @@
 "use client";
 
-import { addMessage } from "./stores/messages";
-import { $user } from "./stores/user";
+import { nanoid } from "nanoid";
+import { addMessage } from "stores/messages";
+import { $user } from "stores/user";
 
 // Generate 5 random messages
 const messages = [
   {
-    id: "1",
     username: $user.get().username,
     body: "Hey, how are you?",
-    createdAt: "2022-01-01T12:00:00Z",
   },
   {
-    id: "2",
     username: "mary read",
     body: "I am doing well, thanks for asking! When people ask such questions, I feel very welcomed!",
-    createdAt: "2022-01-01T12:05:00Z",
   },
   {
-    id: "3",
     username: $user.get().username,
     body: "That is great to hear!",
-    createdAt: "2022-01-01T12:10:00Z",
   },
   {
-    id: "4",
+    ai: true,
+    loading: true,
+    body: "Thinking…",
+  },
+  {
+    username: "some-email@address",
+    body: "Message with a cool avatar.",
+  },
+  {
     username: $user.get().username,
     body: "What's you up into these days?",
-    createdAt: "2022-01-01T12:15:00Z",
   },
   {
-    id: "5",
     username: "mary read",
     body: "Some real-time stuff",
-    createdAt: "2022-01-01T12:20:00Z",
   },
-];
+  {
+    ai: true,
+    body: "Beep-boop destroy all hoooomans",
+  },
+].map((msg, i, arr) => {
+  const start = new Date().getTime() - arr.length * 60 * 1000;
+
+  return {
+    ...msg,
+    id: nanoid(),
+    createdAt: new Date(start + i * 60 * 1000).toISOString(),
+  };
+});
 
 // Call this async to avoid hydration errors
 setTimeout(() => {
   for (const message of messages) {
+    // @ts-expect-error I really don't want to solve type errors for dev environment
     addMessage(message);
   }
 }, 1000);

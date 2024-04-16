@@ -2,7 +2,7 @@ import type { ChannelEvents } from "@anycable/core";
 
 import { Channel } from "@anycable/web";
 
-import type { Message as IMessage } from "../components/message";
+import type { IMessage } from "../components/message";
 
 export type SentMessage = {
   body: string;

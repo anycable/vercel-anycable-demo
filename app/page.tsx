@@ -7,13 +7,14 @@ import { Chat } from "./components/chat";
 import { Header } from "./components/header/header";
 import { Intro } from "./components/intro";
 import { getRoomLabel } from "./utils/room-label";
+import { exists } from "./utils/ts";
 
 export async function generateMetadata({
   searchParams: { roomId },
 }: {
   searchParams: { [key: string]: string };
 }): Promise<Metadata> {
-  const roomLabel = getRoomLabel(roomId);
+  const roomLabel = getRoomLabel(exists(roomId));
 
   return {
     title: `${roomLabel} | AnyCable Next.js Demo`,

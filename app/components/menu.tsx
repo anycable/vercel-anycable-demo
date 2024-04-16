@@ -1,7 +1,8 @@
 import { Menu as HMenu, Transition } from "@headlessui/react";
+import HeroiconsEllipsisVertical from "~icons/heroicons/ellipsis-vertical";
 import { cx } from "class-variance-authority";
 import Link from "next/link";
-import { Fragment, PropsWithChildren, SVGProps, createElement } from "react";
+import { Fragment, PropsWithChildren, createElement } from "react";
 
 const Root = ({ children }: PropsWithChildren) => {
   return (
@@ -10,27 +11,6 @@ const Root = ({ children }: PropsWithChildren) => {
     </HMenu>
   );
 };
-
-function HeroiconsEllipsisVertical(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        d="M12 6.75a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5Zm0 6a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5Zm0 6a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5Z"
-      ></path>
-    </svg>
-  );
-}
 
 const Trigger = ({
   children,

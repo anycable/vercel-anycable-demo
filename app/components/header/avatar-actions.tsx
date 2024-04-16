@@ -1,6 +1,6 @@
 "use client";
 
-import { $cable, $cableState, CableState } from "@/app/stores/cable";
+import { $cable, $cableState, CableState } from "@/stores/cable";
 import { useStore } from "@nanostores/react";
 import { cx } from "class-variance-authority";
 import { useFormStatus } from "react-dom";

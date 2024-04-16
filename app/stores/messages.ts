@@ -2,7 +2,7 @@
 
 import { atom, computed, onSet } from "nanostores";
 
-import type { Message as IMessage } from "../components/message";
+import type { IMessage, IUserMessage } from "../components/message";
 
 import ChatChannel from "../channels/chat-channel";
 import { $cable } from "./cable";
@@ -11,14 +11,14 @@ export const $messages = atom<IMessage[]>([]);
 
 export const $publishableHistory = computed($messages, (messages) => {
   let lastIndex = messages.length - 1;
-  const messagesHistory: IMessage[] = [];
+  const messagesHistory: IUserMessage[] = [];
   while (true) {
     if (lastIndex < 0 || messagesHistory.length === 3) break;
 
     const message = messages[lastIndex];
     if (!message || message.ai) break;
 
-    messagesHistory.push(message);
+    messagesHistory.push(message as IUserMessage);
     lastIndex--;
   }
 

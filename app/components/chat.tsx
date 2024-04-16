@@ -38,7 +38,7 @@ export function Chat({
       <div className="flex-1">
         <MessageList />
       </div>
-      <div className="sticky bottom-0 -mx-2 py-2 pb-10">
+      <div className="sticky bottom-0 -mx-4 bg-amber-50 pb-10">
         <div className="px-2">
           <NewMessageForm />
         </div>

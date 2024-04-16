@@ -1,6 +1,5 @@
 import { formatDateToHours } from "@/utils/format-date";
 import { type VariantProps, cva } from "class-variance-authority";
-import { SVGProps } from "react";
 
 import { Avatar } from "./avatar";
 
@@ -23,37 +22,45 @@ export type IAIMessage = { ai: true; loading?: boolean } & BaseMessage;
 type Props<T> = {
   message: T;
   showName: boolean;
-  showAvatar: boolean;
-} & VariantProps<typeof _messageRoot>;
+} & VariantProps<typeof _messageBubble>;
 
 export const Message = ({
   message,
-  ...rest
-}: Props<IAIMessage | IUserMessage>) => {
+  type,
+  showAvatar,
+  showName,
+}: { showAvatar: boolean } & Props<IAIMessage | IUserMessage>) => {
   return (
-    <div className={_messageRoot({ type: rest.type })}>
-      {message.ai ? (
-        <AIMessage message={message as IAIMessage} />
-      ) : (
-        <UserMessage message={message as IUserMessage} {...rest} />
+    <div className={_root({ type })}>
+      {type === "other" && (
+        <div className="size-8 shrink-0">
+          {showAvatar && (
+            <Avatar
+              username={message.ai ? "" : message.username}
+              fallbackType={message.ai ? "robot" : "human"}
+            />
+          )}
+        </div>
       )}
+
+      <div className={_messageBubble({ type })}>
+        {message.ai ? (
+          <AIMessage message={message as IAIMessage} />
+        ) : (
+          <UserMessage
+            message={message as IUserMessage}
+            type={type}
+            showName={showName}
+          />
+        )}
+      </div>
     </div>
   );
 };
 
-const UserMessage = ({
-  message,
-  type,
-  showName,
-  showAvatar,
-}: Props<IUserMessage>) => {
+const UserMessage = ({ message, type, showName }: Props<IUserMessage>) => {
   return (
     <>
-      {showAvatar && (
-        <div className="size-8 absolute bottom-0 start-0 -translate-x-[calc(100%+8px)]">
-          <Avatar username={message.username} />
-        </div>
-      )}
       {showName && (
         <span className="select-none truncate text-xs font-semibold text-zinc-400">
           {message.username}
@@ -74,10 +81,7 @@ const UserMessage = ({
 const AIMessage = ({ message }: { message: IAIMessage }) => {
   return (
     <>
-      <div className="size-8 absolute bottom-0 start-0 -translate-x-[calc(100%+8px)]">
-        <Avatar username="" fallbackType="robot" />
-      </div>
-      <span className="select-none truncate text-xs font-semibold text-blue-400">
+      <span className="select-none truncate text-xs font-semibold text-emerald-400">
         AI Assistant
       </span>
       <p>{message.body}</p>
@@ -92,17 +96,26 @@ const AIMessage = ({ message }: { message: IAIMessage }) => {
   );
 };
 
-const _messageRoot = cva(
+const _root = cva("flex", {
+  variants: {
+    type: {
+      mine: "justify-end",
+      other: "items-end gap-2",
+    },
+  },
+});
+
+const _messageBubble = cva(
   [
-    "relative max-w-[85%] md:max-w-[66%]",
+    "max-w-[85%] md:max-w-[66%]",
     "flex flex-col gap-1",
     "rounded-md border p-2 pb-1 shadow",
   ],
   {
     variants: {
       type: {
-        mine: "self-end border-red-200 bg-red-100",
-        other: "self-start bg-white",
+        mine: "border-red-200 bg-red-100",
+        other: "bg-white",
       },
     },
   },

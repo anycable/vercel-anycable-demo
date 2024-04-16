@@ -32,13 +32,13 @@ export function Chat({
 
   return (
     <div className="relative flex min-h-screen w-full flex-col gap-3">
-      <div className="sticky top-0 z-10 -mx-2">
+      <div className="sticky top-0 z-10 -mx-2 bg-amber-50">
         <div className="px-2">{header}</div>
       </div>
       <div className="flex-1">
         <MessageList />
       </div>
-      <div className="sticky bottom-0 -mx-4 bg-amber-50 pb-10">
+      <div className="sticky bottom-0 -mx-2 bg-amber-50 pb-10">
         <div className="px-2">
           <NewMessageForm />
         </div>

@@ -12,7 +12,7 @@ export const MessageList = () => {
   const user = useStore($user);
 
   return (
-    <div className="flex h-full flex-col justify-end gap-2 py-4 pl-8">
+    <div className="flex h-full flex-col justify-end gap-2 py-4">
       {messages.map((message, i) => {
         // Base case scenario (because it's straightforward) is AI…
         let showName = true,

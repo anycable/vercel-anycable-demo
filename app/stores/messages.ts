@@ -3,7 +3,7 @@
 import { exists } from "@/utils/ts";
 import { atom, computed, deepMap, onSet } from "nanostores";
 
-import type { IMessage, IUserMessage } from "../components/message";
+import type { IMessage } from "../components/message";
 
 import ChatChannel from "../channels/chat-channel";
 import { $cable } from "./cable";
@@ -12,19 +12,25 @@ export const $messages = deepMap<{ m: IMessage[] }>({ m: [] });
 
 export const $publishableHistory = computed($messages, ({ m: messages }) => {
   let lastIndex = messages.length - 1;
-  const messagesHistory: IUserMessage[] = [];
+  const messagesHistory: IMessage[] = [];
   while (true) {
-    if (lastIndex < 0 || messagesHistory.length === 3) break;
+    if (lastIndex < 0 || messagesHistory.length === 10) break;
 
     const message = messages[lastIndex];
-    if (!message || message.ai) break;
-
-    messagesHistory.push(message as IUserMessage);
+    if (!message) break;
     lastIndex--;
+
+    if (message.ai && message.loading) continue;
+
+    messagesHistory.push(message);
   }
 
   const result = messagesHistory
-    .map((message) => `${message.username}: """${message.body}"""`)
+    .reverse()
+    .map(
+      (message) =>
+        `${message.ai ? "AI assistant" : message.username}: """${message.body}"""`,
+    )
     .join("\n");
 
   return result;
@@ -57,9 +63,8 @@ export const $channel = computed([$cable, $roomId], (cable, roomId) => {
   $messages.set({ m: [] });
   const channel = new ChatChannel({ roomId });
   cable.subscribe(channel);
-  channel.on("message", (message) => {
-    addMessage(message);
-  });
+  channel.on("create", addMessage);
+  channel.on("update", updateMessage);
 
   return channel;
 });

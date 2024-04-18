@@ -1,4 +1,4 @@
-import type { SentMessage } from "@/channels/chat-channel";
+import type { ClientMessage, ServerMessage } from "@/channels/chat-channel";
 import type { IMessage, IUserMessage } from "@/components/message";
 import type { ServerAction } from "@anycable/serverless-js";
 
@@ -24,7 +24,7 @@ type ActionsType = {
 interface Actions extends ActionsType {}
 
 export default class ChatChannel
-  extends Channel<CableIdentifiers, ChatChannelParams, IMessage>
+  extends Channel<CableIdentifiers, ChatChannelParams, ServerMessage>
   implements Actions
 {
   constructor(private aiAssistant = new AIAssistant()) {
@@ -51,7 +51,7 @@ export default class ChatChannel
   async sendMessage(
     handle: ChannelHandle<CableIdentifiers>,
     params: ChatChannelParams,
-    data: SentMessage,
+    data: ClientMessage,
   ) {
     const { body, history } = data;
 
@@ -71,7 +71,7 @@ export default class ChatChannel
     };
     const roomName = `room:${params.roomId}`;
 
-    await broadcastTo(roomName, message);
+    await broadcastTo(roomName, { type: "create", msg: message });
     await this.aiAssistant.startChain(
       roomName,
       // Appending current message to the history

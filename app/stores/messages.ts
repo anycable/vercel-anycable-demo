@@ -3,9 +3,7 @@
 import { exists } from "@/utils/ts";
 import { atom, computed, deepMap, onSet } from "nanostores";
 
-import type { IMessage } from "../components/message";
-
-import ChatChannel from "../channels/chat-channel";
+import ChatChannel, { IMessage } from "../channels/chat-channel";
 import { $cable } from "./cable";
 
 export const $messages = deepMap<{ m: IMessage[] }>({ m: [] });
@@ -29,7 +27,7 @@ export const $publishableHistory = computed($messages, ({ m: messages }) => {
     .reverse()
     .map(
       (message) =>
-        `${message.ai ? "AI assistant" : message.username}: """${message.body}"""`,
+        `${message.ai ? "AI assistant" : message.username}: """${typeof message.body === "string" ? message.body : JSON.stringify(message.body)}"""`,
     )
     .join("\n");
 

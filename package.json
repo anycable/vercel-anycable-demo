@@ -18,6 +18,7 @@
     "@headlessui/react": "^1.7.18",
     "@langchain/community": "^0.0.48",
     "@langchain/core": "0.1.57",
+    "@nanostores/persistent": "^0.10.1",
     "@nanostores/react": "^0.7.2",
     "@types/md5": "^2.3.5",
     "@types/node": "20.12.7",
@@ -35,7 +36,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.4.3",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@iconify-json/heroicons": "^1.1.20",

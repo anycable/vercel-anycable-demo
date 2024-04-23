@@ -32,6 +32,9 @@ dependencies:
   '@langchain/core':
     specifier: 0.1.57
     version: 0.1.57
+  '@nanostores/persistent':
+    specifier: ^0.10.1
+    version: 0.10.1(nanostores@0.10.3)
   '@nanostores/react':
     specifier: ^0.7.2
     version: 0.7.2(nanostores@0.10.3)(react@18.2.0)
@@ -86,6 +89,9 @@ dependencies:
   typescript:
     specifier: 5.4.5
     version: 5.4.5
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
 
 devDependencies:
   '@iconify-json/heroicons':
@@ -843,6 +849,15 @@ packages:
       zod-to-json-schema: 3.22.5(zod@3.22.4)
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@nanostores/persistent@0.10.1(nanostores@0.10.3):
+    resolution: {integrity: sha512-BMYj47ONmkrPkHfomimtBAwtDNNjO57lw0uk7jB35GHVwixmqWtlK6DVAAbioqwJn9WEaWSB/9Ss5ukBG0NHlQ==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      nanostores: ^0.9.0 || ^0.10.0
+    dependencies:
+      nanostores: 0.10.3
     dev: false
 
   /@nanostores/react@0.7.2(nanostores@0.10.3)(react@18.2.0):

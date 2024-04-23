@@ -1,5 +1,9 @@
-import type { ClientMessage, ServerMessage } from "@/channels/chat-channel";
-import type { IMessage, IUserMessage } from "@/components/message";
+import type {
+  ClientMessage,
+  IMessage,
+  IUserMessage,
+  ServerMessage,
+} from "@/channels/chat-channel";
 import type { ServerAction } from "@anycable/serverless-js";
 
 import { ChatActions, ChatChannelParams } from "@/channels/chat-channel";

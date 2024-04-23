@@ -1,3 +1,5 @@
+import type { IAIMessage, IUserMessage } from "@/channels/chat-channel";
+
 import { $messages } from "@/stores/messages";
 import { formatDateToHours } from "@/utils/format-date";
 import { exists } from "@/utils/ts";
@@ -6,23 +8,8 @@ import TeenyiconsLoaderSolid from "~icons/teenyicons/loader-solid";
 import { type VariantProps, cva } from "class-variance-authority";
 import { memo } from "react";
 
+import { WeatherWidget } from "./assistantWidgets/weather";
 import { Avatar } from "./avatar";
-
-type BaseMessage = {
-  id: string;
-  createdAt: string;
-  body: string;
-};
-
-export type IMessage = IAIMessage | IUserMessage;
-
-export type IUserMessage = {
-  ai?: void;
-  username: string;
-  avatar?: string;
-} & BaseMessage;
-
-export type IAIMessage = { ai: true; loading?: boolean } & BaseMessage;
 
 type Props = {
   showName: boolean;
@@ -99,7 +86,11 @@ const AIMessage = ({ message }: { message: IAIMessage }) => {
         </div>
       ) : (
         <>
-          <p>{message.body}</p>
+          {typeof message.body === "string" ? (
+            <p>{message.body}</p>
+          ) : (
+            <WeatherWidget {...message.body.props} />
+          )}
           <time
             className={_messageTimestamp({ type: "other" })}
             title={message.createdAt}

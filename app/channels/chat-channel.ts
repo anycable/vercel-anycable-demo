@@ -1,8 +1,26 @@
 import type { ChannelEvents } from "@anycable/core";
 
+import { AIMessageWithPossibleCustomUI } from "@/api/assistant/customUI";
 import { Channel } from "@anycable/web";
 
-import type { IMessage } from "../components/message";
+type BaseMessage<Body = string> = {
+  id: string;
+  createdAt: string;
+  body: Body;
+};
+
+export type IMessage = IAIMessage | IUserMessage;
+
+export type IUserMessage = {
+  ai?: void;
+  username: string;
+  avatar?: string;
+} & BaseMessage;
+
+export type IAIMessage = {
+  ai: true;
+  loading?: boolean;
+} & BaseMessage<AIMessageWithPossibleCustomUI | string>;
 
 export type ClientMessage = {
   body: string;

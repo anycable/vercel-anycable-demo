@@ -6,7 +6,7 @@ import { DynamicTool } from "@langchain/core/tools";
 export class SmartAiTool extends DynamicTool {
   constructor(
     private smartAiModel = new Fireworks({
-      model: "accounts/fireworks/models/mixtral-8x7b-instruct-hf",
+      model: "accounts/fireworks/models/llama-v3-70b-instruct",
     }),
   ) {
     super({

@@ -31,10 +31,6 @@ export default class ChatChannel
   extends Channel<CableIdentifiers, ChatChannelParams, ServerMessage>
   implements Actions
 {
-  constructor(private aiAssistant = new AIAssistant()) {
-    super();
-  }
-
   async subscribed(
     handle: ChannelHandle<CableIdentifiers>,
     params: ChatChannelParams | null,
@@ -50,6 +46,17 @@ export default class ChatChannel
     }
 
     handle.streamFrom(`room:${params.roomId}`);
+  }
+
+  private _aiAssistant!: AIAssistant;
+  private get aiAssistant(): AIAssistant | null {
+    if (process.env.FIREWORKS_API_KEY) {
+      if (!this._aiAssistant) this._aiAssistant = new AIAssistant();
+
+      return this._aiAssistant;
+    }
+
+    return null;
   }
 
   async sendMessage(
@@ -76,7 +83,8 @@ export default class ChatChannel
     const roomName = `room:${params.roomId}`;
 
     await broadcastTo(roomName, { type: "create", msg: message });
-    await this.aiAssistant.startChain(
+
+    await this.aiAssistant?.startChain(
       roomName,
       // Appending current message to the history
       history + `\n${handle.identifiers!.username}: ${body}`,

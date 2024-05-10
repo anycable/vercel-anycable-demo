@@ -25,7 +25,8 @@ export const MessageList = () => {
           mine = message.username === user.username;
           if (mine) type = "mine";
 
-          const prevMessage = messages[i - 1];
+          const prevMessage = messages[i - 1],
+            nextMessage = messages[i + 1];
 
           if (prevMessage?.ai) {
             showName = !mine;
@@ -37,7 +38,11 @@ export const MessageList = () => {
             2. we show avatar for each last message of a user in a sequence of messages from them
             */
             showName = !mine && prevMessage?.username !== message.username;
-            showAvatar = !mine && prevMessage?.username !== message.username;
+            showAvatar =
+              !mine &&
+              (nextMessage?.ai
+                ? true
+                : nextMessage?.username !== message.username);
           }
         }
 

@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 import harmonyPalette from "@evilmartians/harmony/tailwind";
+import typography from "@tailwindcss/typography";
 import plugin from "tailwindcss/plugin";
 
 const config: Config = {
@@ -23,6 +24,7 @@ const config: Config = {
     },
   },
   plugins: [
+    typography(),
     plugin(function ({ addUtilities }) {
       addUtilities({
         ".text-wrap": { "text-wrap": "wrap" },

@@ -61,7 +61,10 @@ const UserMessage = ({
           {message.username}
         </span>
       )}
-      <p>{message.body}</p>
+      <div
+        className="prose"
+        dangerouslySetInnerHTML={{ __html: message.body }}
+      />
       <time
         className={_messageTimestamp({ type })}
         title={message.createdAt}

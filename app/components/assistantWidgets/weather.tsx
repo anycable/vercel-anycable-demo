@@ -44,19 +44,14 @@ export function WeatherWidget(props: Props): ReactNode {
   return (
     <div className="flex items-center gap-4 p-3 pb-1">
       {weatherType && (
-        <div className="text-xl">{weatherTypeMap[weatherType]}</div>
+        <div className="text-5xl">{weatherTypeMap[weatherType]}</div>
       )}
       <div className="flex flex-col">
+        <div className="mb-1 font-semibold text-zinc-600">{props.cityName}</div>
         <div>
-          <span className="font-semibold">
-            {temperature}
-            {LABELING[system].temp}
-          </span>
-          , feels like{" "}
-          <span className="font-semibold">
-            {temperatureFeel}
-            {LABELING[system].temp}
-          </span>
+          {temperature}
+          {LABELING[system].temp}, feels like {temperatureFeel}
+          {LABELING[system].temp}
         </div>
         <div className="text-sm text-zinc-600">
           Wind speed: {windSpeed}

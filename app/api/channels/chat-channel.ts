@@ -14,6 +14,7 @@ import type { CableIdentifiers } from "../cable";
 
 import { AIAssistant } from "../assistant/assistant";
 import { broadcastTo } from "../cable";
+import { markdownToHtml } from "../utils/markdown";
 
 type ActionsType = {
   [K in keyof ChatActions]: ServerAction<
@@ -77,7 +78,7 @@ export default class ChatChannel
     const message: IUserMessage = {
       id: nanoid(),
       username: handle.identifiers!.username,
-      body,
+      body: await markdownToHtml(body),
       createdAt: new Date().toISOString(),
     };
     const roomName = `room:${params.roomId}`;
@@ -86,8 +87,8 @@ export default class ChatChannel
 
     await this.aiAssistant?.startChain(
       roomName,
-      // Appending current message to the history
-      history + `\n${handle.identifiers!.username}: ${body}`,
+      handle.identifiers!.username + ": " + body,
+      history,
     );
   }
 }

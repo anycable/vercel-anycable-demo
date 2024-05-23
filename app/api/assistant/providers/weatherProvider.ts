@@ -54,6 +54,7 @@ export class WeatherProvider {
     .object({
       type: z.literal("weather"),
       props: z.object({
+        cityName: z.string().describe("City name"),
         temperature: z.number().describe("Actual temperature in celsius"),
         temperatureFeel: z
           .number()

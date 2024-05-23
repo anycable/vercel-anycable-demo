@@ -1,4 +1,5 @@
 import { PropsWithChildren } from "react";
+
 import { PoweredBy } from "./powered-by";
 
 export function MainLayout(props: PropsWithChildren) {

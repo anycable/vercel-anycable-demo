@@ -1,9 +1,11 @@
+import { ServerMessage } from "@/channels/chat-channel";
 import {
   Application,
   ConnectionHandle,
   broadcaster,
   identificator,
 } from "@anycable/serverless-js";
+
 import ChatChannel from "./channels/chat-channel";
 
 export type CableIdentifiers = {
@@ -17,7 +19,8 @@ const broadcastURL =
   process.env.ANYCABLE_HTTP_BROADCAST_URL || "http://localhost:8090/_broadcast";
 const broadcastToken = process.env.ANYCABLE_HTTP_BROADCAST_SECRET || "";
 
-export const broadcastTo = broadcaster(broadcastURL, broadcastToken);
+export const broadcastTo: (room: string, data: ServerMessage) => Promise<void> =
+  broadcaster(broadcastURL, broadcastToken);
 
 const jwtSecret = process.env.ANYCABLE_JWT_ID_KEY || "hey";
 const jwtTTL = "2h";

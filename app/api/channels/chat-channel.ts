@@ -1,11 +1,20 @@
-import { Channel, ChannelHandle } from "@anycable/serverless-js";
+import type {
+  ClientMessage,
+  IMessage,
+  IUserMessage,
+  ServerMessage,
+} from "@/channels/chat-channel";
 import type { ServerAction } from "@anycable/serverless-js";
-import type { CableIdentifiers } from "../cable";
-import { broadcastTo } from "../cable";
 
-import type { SentMessage } from "@/app/channels/chat-channel";
-import { ChatChannelParams, ChatActions } from "@/app/channels/chat-channel";
-import type { Message as IMessage } from "../../components/message";
+import { ChatActions, ChatChannelParams } from "@/channels/chat-channel";
+import { Channel, ChannelHandle } from "@anycable/serverless-js";
+import { nanoid } from "nanoid";
+
+import type { CableIdentifiers } from "../cable";
+
+import { AIAssistant } from "../assistant/assistant";
+import { broadcastTo } from "../cable";
+import { markdownToHtml } from "../utils/markdown";
 
 type ActionsType = {
   [K in keyof ChatActions]: ServerAction<
@@ -20,7 +29,7 @@ type ActionsType = {
 interface Actions extends ActionsType {}
 
 export default class ChatChannel
-  extends Channel<CableIdentifiers, ChatChannelParams, IMessage>
+  extends Channel<CableIdentifiers, ChatChannelParams, ServerMessage>
   implements Actions
 {
   async subscribed(
@@ -40,12 +49,23 @@ export default class ChatChannel
     handle.streamFrom(`room:${params.roomId}`);
   }
 
+  private _aiAssistant!: AIAssistant;
+  private get aiAssistant(): AIAssistant | null {
+    if (process.env.FIREWORKS_API_KEY) {
+      if (!this._aiAssistant) this._aiAssistant = new AIAssistant();
+
+      return this._aiAssistant;
+    }
+
+    return null;
+  }
+
   async sendMessage(
     handle: ChannelHandle<CableIdentifiers>,
     params: ChatChannelParams,
-    data: SentMessage,
+    data: ClientMessage,
   ) {
-    const { body } = data;
+    const { body, history } = data;
 
     if (!body) {
       throw new Error("Body is required");
@@ -55,13 +75,20 @@ export default class ChatChannel
       `User ${handle.identifiers!.username} sent message: ${data.body}`,
     );
 
-    const message: IMessage = {
-      id: Math.random().toString(36).substr(2, 9),
+    const message: IUserMessage = {
+      id: nanoid(),
       username: handle.identifiers!.username,
-      body,
+      body: await markdownToHtml(body),
       createdAt: new Date().toISOString(),
     };
+    const roomName = `room:${params.roomId}`;
 
-    await broadcastTo(`room:${params.roomId}`, message);
+    await broadcastTo(roomName, { type: "create", msg: message });
+
+    await this.aiAssistant?.startChain(
+      roomName,
+      handle.identifiers!.username + ": " + body,
+      history,
+    );
   }
 }

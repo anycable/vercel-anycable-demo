@@ -1,51 +1,141 @@
-import { cx } from "class-variance-authority";
-import { formatDateToHours } from "../utils/format-date";
+import type { IAIMessage, IUserMessage } from "@/channels/chat-channel";
+
+import { $messages } from "@/stores/messages";
+import { formatDateToHours } from "@/utils/format-date";
+import { exists } from "@/utils/ts";
+import { useStore } from "@nanostores/react";
+import TeenyiconsLoaderSolid from "~icons/teenyicons/loader-solid";
+import { type VariantProps, cva } from "class-variance-authority";
+import { memo } from "react";
+
+import { WeatherWidget } from "./assistantWidgets/weather";
 import { Avatar } from "./avatar";
 
-export type Message = {
-  id: string;
-  username: string;
-  avatar?: string;
-  body: string;
-  createdAt: string;
-};
-
-interface Props {
-  message: Message;
-  mine: boolean;
+type Props = {
   showName: boolean;
-  showAvatar: boolean;
-}
+} & VariantProps<typeof _messageBubble>;
 
-export const Message = ({ message, mine, showName, showAvatar }: Props) => {
+export const Message = memo(function Message({
+  messageIndex,
+  type,
+  showAvatar,
+  showName,
+}: { showAvatar: boolean; messageIndex: number } & Props) {
+  const message = exists(
+    useStore($messages, { keys: [`m[${messageIndex}]`] }).m[messageIndex],
+  );
+
   return (
-    <div
-      className={cx(
-        "relative flex max-w-[85%] flex-col gap-1 rounded-md border p-2 pb-1 shadow md:max-w-[66%]",
-        mine ? "self-end border-red-200 bg-red-100" : "self-start bg-white",
-      )}
-    >
-      {showAvatar && (
-        <div className="absolute bottom-0 left-0 h-8 w-8 -translate-x-[calc(100%+8px)]">
-          <Avatar username={message.username} />
+    <div className={_root({ type })}>
+      {type === "other" && (
+        <div className="size-8 shrink-0">
+          {showAvatar && (
+            <Avatar
+              username={message.ai ? "" : message.username}
+              fallbackType={message.ai ? "robot" : "human"}
+            />
+          )}
         </div>
       )}
+
+      <div className={_messageBubble({ type })}>
+        {message.ai ? (
+          <AIMessage message={message} />
+        ) : (
+          <UserMessage message={message} type={type} showName={showName} />
+        )}
+      </div>
+    </div>
+  );
+});
+
+const UserMessage = ({
+  message,
+  type,
+  showName,
+}: { message: IUserMessage } & Props) => {
+  return (
+    <>
       {showName && (
-        <span className="select-none truncate text-xs font-semibold text-gray-400">
+        <span className="select-none truncate text-xs font-semibold text-zinc-400">
           {message.username}
         </span>
       )}
-      <p>{message.body}</p>
+      <div
+        className="prose"
+        dangerouslySetInnerHTML={{ __html: message.body }}
+      />
       <time
-        className={cx(
-          mine ? "text-red-400" : "text-gray-400",
-          "select-none text-right text-xs",
-        )}
+        className={_messageTimestamp({ type })}
         title={message.createdAt}
         dateTime={message.createdAt}
       >
         {formatDateToHours(message.createdAt)}
       </time>
-    </div>
+    </>
   );
 };
+
+const AIMessage = ({ message }: { message: IAIMessage }) => {
+  return (
+    <>
+      <span className="select-none truncate text-xs font-semibold text-emerald-400">
+        AI Assistant
+      </span>
+      {message.loading ? (
+        <div className="inline-flex select-none items-center gap-2">
+          <TeenyiconsLoaderSolid className="size-4 animate-spin text-zinc-500" />
+          <span className="text-zinc-700">Thinking…</span>
+        </div>
+      ) : (
+        <>
+          {typeof message.body === "string" ? (
+            <p>{message.body}</p>
+          ) : (
+            <WeatherWidget {...message.body.props} />
+          )}
+          <time
+            className={_messageTimestamp({ type: "other" })}
+            title={message.createdAt}
+            dateTime={message.createdAt}
+          >
+            {formatDateToHours(message.createdAt)}
+          </time>
+        </>
+      )}
+    </>
+  );
+};
+
+const _root = cva("flex", {
+  variants: {
+    type: {
+      mine: "justify-end",
+      other: "items-end gap-2",
+    },
+  },
+});
+
+const _messageBubble = cva(
+  [
+    "max-w-[85%] md:max-w-[66%]",
+    "flex flex-col gap-1",
+    "rounded-md border p-2 pb-1 shadow",
+  ],
+  {
+    variants: {
+      type: {
+        mine: "border-red-200 bg-red-100",
+        other: "bg-white",
+      },
+    },
+  },
+);
+const _messageTimestamp = cva("select-none text-right text-xs", {
+  variants: {
+    type: {
+      mine: "text-red-400",
+      other: "text-zinc-400",
+    },
+  },
+});

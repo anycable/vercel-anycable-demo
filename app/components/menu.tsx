@@ -1,7 +1,8 @@
 import { Menu as HMenu, Transition } from "@headlessui/react";
+import HeroiconsEllipsisVertical from "~icons/heroicons/ellipsis-vertical";
 import { cx } from "class-variance-authority";
 import Link from "next/link";
-import { PropsWithChildren, Fragment, createElement, SVGProps } from "react";
+import { Fragment, PropsWithChildren, createElement } from "react";
 
 const Root = ({ children }: PropsWithChildren) => {
   return (
@@ -11,27 +12,6 @@ const Root = ({ children }: PropsWithChildren) => {
   );
 };
 
-function HeroiconsEllipsisVertical(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
-      viewBox="0 0 24 24"
-      {...props}
-    >
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        d="M12 6.75a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5Zm0 6a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5Zm0 6a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5Z"
-      ></path>
-    </svg>
-  );
-}
-
 const Trigger = ({
   children,
   label = "More",
@@ -40,7 +20,7 @@ const Trigger = ({
     <span className="sr-only">{label}</span>
     {children ?? (
       <HeroiconsEllipsisVertical
-        className="h-5 w-5 text-gray-500"
+        className="h-5 w-5 text-zinc-500"
         aria-hidden="true"
       />
     )}
@@ -50,7 +30,7 @@ const Trigger = ({
 const Body = ({
   children,
   align = "right",
-}: PropsWithChildren<{ align?: "right" | "left" }>) => {
+}: PropsWithChildren<{ align?: "left" | "right" }>) => {
   return (
     <Transition
       as={Fragment}
@@ -63,7 +43,7 @@ const Body = ({
     >
       <HMenu.Items
         className={cx(
-          "absolute z-10 mt-0.5 w-36 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-gray-900/5 focus:outline-none",
+          "absolute z-10 mt-0.5 w-36 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none",
           align === "right" && "right-0",
           align === "left" && "left-0",
         )}
@@ -74,21 +54,21 @@ const Body = ({
   );
 };
 
-function InteractiveItem<T extends "button" | "a">({
+function InteractiveItem<T extends "a" | "button">({
   as,
   ...props
-}: JSX.IntrinsicElements[T] & { as: T }) {
+}: { as: T } & JSX.IntrinsicElements[T]) {
   const Element = (as == "a" ? Link : as) as unknown as any;
   return createElement(Element, {
     ...props,
     className:
-      "block w-full pr-3 pl-6 py-1 text-left text-sm leading-6 text-gray-900 hover:bg-gray-100 disabled:text-gray-600",
+      "block w-full pr-3 pl-6 py-1 text-left text-sm leading-6 text-zinc-900 hover:bg-zinc-100 disabled:text-zinc-600",
   });
 }
 
 function TextItem({ children }: PropsWithChildren) {
   return (
-    <div className="w-full truncate py-1 pl-6 pr-3 text-sm leading-6 text-gray-500">
+    <div className="w-full truncate py-1 pl-6 pr-3 text-sm leading-6 text-zinc-500">
       {children}
     </div>
   );

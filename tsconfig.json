@@ -10,6 +10,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
@@ -18,9 +19,13 @@
         "name": "next"
       }
     ],
+    "baseUrl": "./app",
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": [
+      "unplugin-icons/types/react",
+    ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

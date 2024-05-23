@@ -1,4 +1,5 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
+
 import { identifier } from "./app/api/cable";
 
 export async function middleware(request: NextRequest) {

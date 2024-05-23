@@ -1,3 +1,5 @@
+import { exists } from "./ts";
+
 function simpleHash(str: string) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -11,5 +13,5 @@ function simpleHash(str: string) {
 export function seededRandom<T>(id: string, arr: T[]) {
   const hash = simpleHash(id);
   const index = Math.abs(hash) % arr.length;
-  return arr[index];
+  return exists(arr[index]);
 }

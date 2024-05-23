@@ -1,10 +1,11 @@
+import { nanoid } from "nanoid";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+import { identifier } from "../api/cable";
 import { AuthForm } from "../components/auth-form";
 import { MainLayout } from "../components/main-layout";
 import { Logo } from "./logo";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
-import { identifier } from "../api/cable";
-import { nanoid } from "nanoid";
 
 export default async function AuthPage({
   searchParams,
@@ -46,7 +47,7 @@ export default async function AuthPage({
             <Logo />
           </div>
           <div className="my-10">
-            <h1 className="mb-4 text-center text-2xl font-semibold text-balance">
+            <h1 className="mb-4 text-balance text-center text-2xl font-semibold">
               Welcome to AnyCable demo!
             </h1>
             <p className="text-sm">

@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@anycable/anycable-go':
-    specifier: ^1.4.6
-    version: 1.4.6
+    specifier: ^1.5.2
+    version: 1.5.2
   '@anycable/core':
     specifier: ^0.7.8
     version: 0.7.8
@@ -104,8 +104,9 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /@anycable/anycable-go@1.4.6:
-    resolution: {integrity: sha512-kBxpDVUuNnDBxpcsNgsh7DICGVQLu0y3uPK9PqfVekLfULOAN22gYY7IHbOotTpTghmE9jkU7eXAS+wiXVZvuw==}
+  /@anycable/anycable-go@1.5.2:
+    resolution: {integrity: sha512-50v2RvxwiEmob/tUKs1xaO11aREcAS/MJ/FJV30fOVfDv7H08IAQtnLyh96bNy8a4nDtS26yuk/Je//K2aN3Pg==}
+    engines: {node: '>=20.0.0'}
     cpu: [x64, arm64]
     os: [darwin, linux, win32]
     hasBin: true
